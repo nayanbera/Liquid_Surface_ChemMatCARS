@@ -1,7 +1,7 @@
 from PyQt5 import uic, QtGui, QtCore
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
-from PyQt5.QtWidgets import *
+# from PyQt5.QtCore import *
+# from PyQt5.QtGui import *
+# from PyQt5.QtWidgets import QMainWindow, QLabel, QComboBox, QFileDialog, QMessageBox, QCheckBox, QLineEdit, QListWidget
 from PyQt5.Qt import *
 from spec_routines import specread
 from mca_routines import mcaread
@@ -602,10 +602,12 @@ class MainWindow (QMainWindow):
         self.ui.scansLineEdit.setText(str([item for item in self.selectedScanNums])[1:-1])
         if self.checkSameScans()==False or self.selectedScanNums==[]:
             self.ui.statusBar.showMessage('Error:: The scans are not identical or some scans have no data!!')
-            self.disconnect(self.ui.scanListWidget, SIGNAL('itemSelectionChanged()'),self.scanListChanged)
+            # self.disconnect(self.ui.scanListWidget, SIGNAL('itemSelectionChanged()'),self.scanListChanged)
+            self.ui.scanListWidget.itemSelectionChanged.disconnect(self.scanListChanged)
             for item in self.selectedScans:
-                self.ui.scanListWidget.setItemSelected(item,False)
-            self.connect(self.ui.scanListWidget, SIGNAL('itemSelectionChanged()'),self.scanListChanged)
+                item.setItemSelected(False)
+            # self.connect(self.ui.scanListWidget, SIGNAL('itemSelectionChanged()'),self.scanListChanged)
+            self.ui.ScanListWidget.itemSelectionChanged.connect(self.scanListChanged)
             self.ui.specPlotMplWidget.canvas.ax.clear()
             self.ui.specPlotMplWidget.canvas.draw()
         else:
@@ -663,7 +665,8 @@ class MainWindow (QMainWindow):
             
     def scanListInputChanged(self):
         inputscannumbers=str(self.ui.scansLineEdit.text()).split(',')
-        self.disconnect(self.ui.scanListWidget, SIGNAL('itemSelectionChanged()'),self.scanListChanged)
+        # self.disconnect(self.ui.scanListWidget, SIGNAL('itemSelectionChanged()'),self.scanListChanged)
+        self.ui.scanListWidget.itemSelectionChanged.disconnect(self.scanListChanged)
         self.selectedScans=self.ui.scanListWidget.selectedItems()
         self.selectedScanNums=[int(str(items.text()).split()[1]) for items in self.selectedScans]
         try:    
@@ -673,16 +676,18 @@ class MainWindow (QMainWindow):
         except:
             self.selectedScanNums=[]
         for item in inputscannumbers:
-            scan=map(int, item.split('-'))
+            scan=list(map(int, item.split('-')))
             if len(scan)>1:
-                self.selectedScanNums=self.selectedScanNums+range(scan[0],scan[1]+1)
+                self.selectedScanNums=self.selectedScanNums+list(range(scan[0],scan[1]+1))
             else:
                 self.selectedScanNums=self.selectedScanNums+scan
         #self.selectedScanNums=[item for item in self.selectedScanNums]
-        self.connect(self.ui.scanListWidget, SIGNAL('itemSelectionChanged()'),self.scanListChanged)
+        # self.connect(self.ui.scanListWidget, SIGNAL('itemSelectionChanged()'),self.scanListChanged)
+        self.ui.scanListWidget.itemSelectionChanged.connect(self.scanListChanged)
         snum=[int(item.split()[1]) for item in self.scanlines]
         for i in self.selectedScanNums:
-            self.ui.scanListWidget.setItemSelected(self.ui.scanListWidget.item(snum.index(i)),True)
+            # self.ui.scanListWidget.setItemSelected(self.ui.scanListWidget.item(snum.index(i)),True)
+            self.ui.scanListWidget.item(snum.index(i)).setSelected(True)
         self.ui.scanListWidget.setCurrentRow(self.selectedScanNums[-1]-1)
         self.ui.statusBar.showMessage('Done')
         
@@ -848,7 +853,8 @@ class MainWindow (QMainWindow):
         return all(x==anyarray[0] for x in anyarray)
         
     def updateMcaImageList(self):
-        self.disconnect(self.ui.imageListWidget,SIGNAL('itemSelectionChanged()'),self.imageSelectedScanChanged)
+        # self.disconnect(self.ui.imageListWidget,SIGNAL('itemSelectionChanged()'),self.imageSelectedScanChanged)
+        self.ui.imageListWidget.itemSelectionChanged.disconnect(self.imageSelectedScanChanged)
         self.ui.statusBar.clearMessage()
         for i in self.selectedScanNums:
             self.ui.scanListWidget.setItemSelected(self.ui.scanListWidget.item(i-1),True)
@@ -865,7 +871,8 @@ class MainWindow (QMainWindow):
                 self.mcaPar[start]=par[j]
                 self.ui.imageListWidget.addItem('S# '+str(self.selectedScanNums[i])+'\tmS# '+str(j+1)+'\tQz='+str(self.mcaPar[start]['Q'][2]))
                 start=start+1           
-        self.connect(self.ui.imageListWidget,SIGNAL('itemSelectionChanged()'),self.imageSelectedScanChanged)
+        # self.connect(self.ui.imageListWidget,SIGNAL('itemSelectionChanged()'),self.imageSelectedScanChanged)
+        self.ui.imageListWidget.itemSelectionChanged.connect(self.imageSelectedScanChanged)
         
     def mcaSelectedScanChanged(self):
         self.ui.statusBar.clearMessage()
@@ -1073,8 +1080,10 @@ class MainWindow (QMainWindow):
         self.uimcamerge=uic.loadUi('mcamerge.ui', Dialog)
         self.uimcamerge.label.setText('Please provide the resolution of x')
         self.uimcamerge.show()
-        self.connect(self.uimcamerge.cancelPushButton, SIGNAL('clicked()'), self.mcaMergeDiaClose)
-        self.connect(self.uimcamerge.okPushButton, SIGNAL('clicked()'), self.mcaIntMerge)
+        # self.connect(self.uimcamerge.cancelPushButton, SIGNAL('clicked()'), self.mcaMergeDiaClose)
+        self.uimcamerge.cancelPushButton.clicked.connect(self.mcaMergeDiaClose)
+        # self.connect(self.uimcamerge.okPushButton, SIGNAL('clicked()'), self.mcaIntMerge)
+        self.uimcamerge.okPushButton.clicked.connect(self.mcaIntMerge)
             
     def mcaMergeDiaClose(self):
         self.uimcamerge.close()
@@ -1187,16 +1196,20 @@ class MainWindow (QMainWindow):
                 
     def unSelectedAllImages(self):
         if self.ui.imageSelectAllCheckBox.checkState()!=0 and self.specPar[self.selectedScanNums[0]]['Detector']=='Bruker':
-            self.disconnect(self.ui.imageListWidget,SIGNAL('itemSelectionChanged()'),self.imageSelectedScanChanged)
+            # self.disconnect(self.ui.imageListWidget,SIGNAL('itemSelectionChanged()'),self.imageSelectedScanChanged)
+            self.ui.imageListWidget.itemSelectionChanged.disconnect(self.imageSelectedScanChanged)
             for items in self.selectedCcdFrames:
                 self.ui.imageListWidget.setItemSelected(items,False)
-            self.connect(self.ui.imageListWidget,SIGNAL('itemSelectionChanged()'),self.imageSelectedScanChanged)
+            # self.connect(self.ui.imageListWidget,SIGNAL('itemSelectionChanged()'),self.imageSelectedScanChanged)
+            self.ui.imageListWidget.itemSelectionChanged.connect(self.imageSelectedScanChanged)
             self.ui.imageSelectAllCheckBox.setCheckState(0)
         elif self.ui.imageSelectAllCheckBox.checkState()!=0 and self.specPar[self.selectedScanNums[0]]['Detector']=='Pilatus':
-            self.disconnect(self.ui.imageListWidget,SIGNAL('itemSelectionChanged()'),self.imageSelectedScanChanged)
+            # self.disconnect(self.ui.imageListWidget,SIGNAL('itemSelectionChanged()'),self.imageSelectedScanChanged)
+            self.ui.imageListWidget.itemSelectionChanged.disconnect(self.imageSelectedScanChanged)
             for items in self.selectedPilFrames:
                 self.ui.imageListWidget.setItemSelected(items,False)
-            self.connect(self.ui.imageListWidget,SIGNAL('itemSelectionChanged()'),self.imageSelectedScanChanged)
+            # self.connect(self.ui.imageListWidget,SIGNAL('itemSelectionChanged()'),self.imageSelectedScanChanged)
+            self.ui.imageListWidget.itemSelectionChanged.connect(self.imageSelectedScanChanged)
             self.ui.imageSelectAllCheckBox.setCheckState(0)
         elif self.ui.imageSelectAllCheckBox.checkState()!=0 and self.specPar[self.selectedScanNums[0]]['Detector']=='Vortex':
             self.ui.imageSelectAllCheckBox.setCheckState(0)
@@ -1222,7 +1235,8 @@ class MainWindow (QMainWindow):
  
         
     def updateCcdImageList(self):
-        self.disconnect(self.ui.imageListWidget,SIGNAL('itemSelectionChanged()'),self.imageSelectedScanChanged)
+        # self.disconnect(self.ui.imageListWidget,SIGNAL('itemSelectionChanged()'),self.imageSelectedScanChanged)
+        self.ui.imageListWidget.itemSelectionChanged.disconnect(self.imageSelectedScanChanged)
         self.ui.statusBar.clearMessage()
         self.numFrames={}
         self.ccdFileNames=[]
@@ -1277,6 +1291,7 @@ class MainWindow (QMainWindow):
         self.ccdLogData={}
         self.ccdErrorData={}
         self.connect(self.ui.imageListWidget,SIGNAL('itemSelectionChanged()'),self.imageSelectedScanChanged)
+        self.ui.imageListWidget.itemSelectionChanged.disconnect(self.imageSelectedScanChanged)
 
     def updatePilImageList(self):
         # self.disconnect(self.ui.imageListWidget,SIGNAL('itemSelectionChanged()'),self.imageSelectedScanChanged)
@@ -1652,10 +1667,12 @@ class MainWindow (QMainWindow):
         
         
     def removeBGImages(self):
-        self.disconnect(self.ui.backgroundListWidget, SIGNAL('itemSelectionChanged()'),self.bgSelectionChanged)
+        # self.disconnect(self.ui.backgroundListWidget, SIGNAL('itemSelectionChanged()'),self.bgSelectionChanged)
+        self.ui.backgroundListWidget.itemSelectionChanged.disconnect(self.bgSelectionChanged)
         for item in self.ui.backgroundListWidget.selectedItems():
             self.ui.backgroundListWidget.takeItem(self.ui.backgroundListWidget.row(item))  
-        self.connect(self.ui.backgroundListWidget, SIGNAL('itemSelectionChanged()'),self.bgSelectionChanged)
+        # self.connect(self.ui.backgroundListWidget, SIGNAL('itemSelectionChanged()'),self.bgSelectionChanged)
+        self.ui.backgroundListWidget.itemSelectionChanged.conect(self.bgSelectionChanged)
         self.ui.bgSelectAllCheckBox.setCheckState(0)
         
     def update2dPlots(self):
@@ -2362,10 +2379,12 @@ class MainWindow (QMainWindow):
     
     def pilGIDpatchData(self):
         if self.pilGIDshow==0:
-            self.disconnect(self.ui.pilAxesComboBox, SIGNAL('currentIndexChanged(int)'), self.update2dPlots)
+            # self.disconnect(self.ui.pilAxesComboBox, SIGNAL('currentIndexChanged(int)'), self.update2dPlots)
+            self.ui.pilAxesComboBox.currentIndexChanged.disconnect(self.update2dPlots)
             if self.ui.pilAxesComboBox.currentIndex()==0:
                 self.ui.pilAxesComboBox.setCurrentIndex(2)
-            self.connect(self.ui.pilAxesComboBox, SIGNAL('currentIndexChanged(int)'), self.update2dPlots)
+            # self.connect(self.ui.pilAxesComboBox, SIGNAL('currentIndexChanged(int)'), self.update2dPlots)
+            self.ui.pilAxesComboBox.currentIndexChanged.connect(self.update2dPlots)
         self.pilGIDshow=1
         self.pilGISAXSshow=0
         self.ui.pilMplWidget.canvas.fig.clf()
@@ -2541,9 +2560,9 @@ class MainWindow (QMainWindow):
                 # print listb, listt
         bpop=[]    # list for the footprint conners need to be poped out
         if len(listb)!=0:  #get conner points need to be poped out 
-            bpop=range(listb[0],listb[1])
+            bpop=list(range(listb[0],listb[1]))
         if len(listt)!=0:
-            tpop=range(listt[1],listt[0]+4)
+            tpop=list(range(listt[1],listt[0]+4))
             for i in range(len(tpop)):
                 if tpop[i]>3:
                     bpop.append(tpop[i]-4)
@@ -2964,9 +2983,11 @@ class MainWindow (QMainWindow):
     def pilGIDData(self):
         #print 'I am missing'
         if self.pilGIDshow==0:
-            self.disconnect(self.ui.pilAxesComboBox, SIGNAL('currentIndexChanged(int)'), self.update2dPlots)
+            # self.disconnect(self.ui.pilAxesComboBox, SIGNAL('currentIndexChanged(int)'), self.update2dPlots)
+            self.ui.pilAxesComboBox.currentIndexChanged.connect(self.update2dPlots)
             self.ui.pilAxesComboBox.setCurrentIndex(1)
-            self.connect(self.ui.pilAxesComboBox, SIGNAL('currentIndexChanged(int)'), self.update2dPlots)
+            # self.connect(self.ui.pilAxesComboBox, SIGNAL('currentIndexChanged(int)'), self.update2dPlots)
+            self.ui.pilAxesComboBox.currentIndexChanged.connect(self.update2dPlots)
         self.pilGIDshow=1
         aspect=str(self.ui.pilAspectComboBox.currentText())
         vmax=float(self.ui.pilMaxLineEdit.text())
@@ -3111,7 +3132,8 @@ class MainWindow (QMainWindow):
         self.ui.refADDataPlotWidget.canvas.fig.clf()
 #        dist=float(self.ui.gixSDDistLineEdit.text())
 #        cmap=str(self.ui.gixCMapComboBox.currentText())
-        self.disconnect(self.ui.refQzListWidget, SIGNAL('itemSelectionChanged()'),self.refQzListSelectionChanged)
+#         self.disconnect(self.ui.refQzListWidget, SIGNAL('itemSelectionChanged()'),self.refQzListSelectionChanged)
+        self.ui.refQzListWidget.itemSelectionChanged.disconnect(self.refQzListSelectionChanged)
         self.ui.refQzListWidget.clear()
         self.scanframe={}
         self.refSortedFrameNums={}
@@ -3142,14 +3164,16 @@ class MainWindow (QMainWindow):
                 self.ui.refQzListWidget.addItem('Qz= '+str(self.ccdFileQzs[i])+'\t {S:F}= '+str({int(sftext[0].split('#')[1]):[int(sftext[1].split('#')[1])]})+'\t Abs='+str(self.ccd_AbsNum[i]))
                 self.refSortedFrameNums[j]=[i]
                 j=j+1
-        self.connect(self.ui.refQzListWidget, SIGNAL('itemSelectionChanged()'),self.refQzListSelectionChanged)
+        # self.connect(self.ui.refQzListWidget, SIGNAL('itemSelectionChanged()'),self.refQzListSelectionChanged)
+        self.ui.refQzListWidget.itemSelectionChanged.connect(self.refQzListSelectionChanged)
         self.ui.refQzListWidget.setItemSelected(self.ui.refQzListWidget.item(0),True)
         
     def updateRefPilPlotData(self):
         self.ui.refADDataPlotWidget.canvas.fig.clf()
         dist=float(self.ui.pilSDDistLineEdit.text())
         cmap=str(self.ui.pilCMapComboBox.currentText())
-        self.disconnect(self.ui.refQzListWidget, SIGNAL('itemSelectionChanged()'),self.refQzListSelectionChanged)
+        # self.disconnect(self.ui.refQzListWidget, SIGNAL('itemSelectionChanged()'),self.refQzListSelectionChanged)
+        self.ui.refQzListWidget.itemSelectionChanged.disconnect(self.refQzListSelectionChanged)
         self.ui.refQzListWidget.clear()
         self.scanframe={}
         self.refSortedFrameNums={}
@@ -3180,8 +3204,9 @@ class MainWindow (QMainWindow):
                 self.ui.refQzListWidget.addItem('Qz= '+str(self.pilFileQzs[i])+'\t {S:F}= '+str({int(sftext[0].split('#')[1]):[int(sftext[1].split('#')[1])]})+'\t Abs='+str(self.pil_AbsNum[i]))
                 self.refSortedFrameNums[j]=[i]
                 j=j+1
-        self.connect(self.ui.refQzListWidget, SIGNAL('itemSelectionChanged()'),self.refQzListSelectionChanged)
-        self.ui.refQzListWidget.setItemSelected(self.ui.refQzListWidget.item(0),True)
+        # self.connect(self.ui.refQzListWidget, SIGNAL('itemSelectionChanged()'),self.refQzListSelectionChanged)
+        self.ui.refQzListWidget.itemSelectionChanged.connect(self.refQzListSelectionChanged)
+        self.ui.refQzListWidget.item(0).setSelected(True)
         
     def refQzListSelectionChanged(self):
         self.ui.refADDataPlotWidget.canvas.fig.clf()
@@ -3420,10 +3445,12 @@ class MainWindow (QMainWindow):
         self.progressDialog.setMaximum(self.ui.refQzListWidget.count())
         self.progressDialog.show()
         for i in range(1,self.ui.refQzListWidget.count()):
-            self.disconnect(self.ui.refQzListWidget, SIGNAL('itemSelectionChanged()'),self.refQzListSelectionChanged)
-            self.ui.refQzListWidget.setItemSelected(self.ui.refQzListWidget.item(i-1),False)
-            self.connect(self.ui.refQzListWidget, SIGNAL('itemSelectionChanged()'),self.refQzListSelectionChanged)
-            self.ui.refQzListWidget.setItemSelected(self.ui.refQzListWidget.item(i),True)
+            # self.disconnect(self.ui.refQzListWidget, SIGNAL('itemSelectionChanged()'),self.refQzListSelectionChanged)
+            self.ui.refQzListWidget.itemSelectionChanged.disconnect(self.refQzListSelectionChanged)
+            self.ui.refQzListWidget.item(i-1).setSelected(False)
+            # self.connect(self.ui.refQzListWidget, SIGNAL('itemSelectionChanged()'),self.refQzListSelectionChanged)
+            self.ui.refQzListWidget.itemSelectionChanged.connect(self.refQzListSelectionChanged)
+            self.ui.refQzListWidget.item(i).setSelected(True)
             self.refAnalyze()
             self.updateRefDataList()
             self.progressDialog.setLabelText('Reading Frames for Qz= '+str(self.refQzSelected))     
@@ -3509,9 +3536,10 @@ class MainWindow (QMainWindow):
                 sig,sigerr,lbg,lbgerr,rbg,rbgerr=self.pilatus.sumROI(slit=self.slit,cen=[cenx,ceny],dir=self.dir,bg=self.bg)  
                 #self.scanqzframe[qkey]=[np.vstack((self.pilFileQzs[i],sig-(lbg+rbg)/2.0, np.sqrt(sigerr**2+(lbgerr**2+rbgerr**2)/4))).T]
                 self.scanqzframe[qkey]=np.array([self.pilFileQzs[i],sig-(lbg+rbg)/2.0, np.sqrt(sigerr**2+(lbgerr**2+rbgerr**2)/4),sig,sigerr,lbg,rbg])
-        self.pilrefsort=self.sortedScans(self.scanqzframe)
+        self.pilrefsort=list(self.sortedScans(self.scanqzframe))
+
        # print self.scanqzframe
-        #print self.pilrefsort
+        print (self.pilrefsort)
         if len(self.pilRefPeakCen)!=0:
             self.pilRefPeakCenDis()
         if len(self.pilrefsort)==0:
@@ -3557,8 +3585,10 @@ class MainWindow (QMainWindow):
         self.uirefpatch=uic.loadUi('refpatch.ui', Dialog)
         self.uirefpatch.show()
         self.pilreforder=0
-        self.connect(self.uirefpatch.dropPushButton, SIGNAL('clicked()'),self.pilRefPatchDrop)  #drop the data
-        self.connect(self.uirefpatch.nextPushButton,SIGNAL('clicked()'),self.pilRefPatchNext) #go to the next overlap
+        # self.connect(self.uirefpatch.dropPushButton, SIGNAL('clicked()'),self.pilRefPatchDrop)  #drop the data
+        self.uirefpatch.dropPushButton.clicked.connect(self.pilRefPatchDrop)
+        # self.connect(self.uirefpatch.nextPushButton,SIGNAL('clicked()'),self.pilRefPatchNext) #go to the next overlap
+        self.uirefpatch.nextPushButton.clicked.connect(self.pilRefPatchNext)
         self.pilRefPatchPlot()
         
     def pilRefSameScan(self):
@@ -3566,9 +3596,12 @@ class MainWindow (QMainWindow):
         self.uirefpatchsamescan=uic.loadUi('refpatchsamescan.ui', Dialog)
         self.uirefpatchsamescan.show()
         self.pilrefsamescanorder=0
-        self.connect(self.uirefpatchsamescan.dropPushButton, SIGNAL('clicked()'),self.pilRefSSDrop) #drop scans
-        self.connect(self.uirefpatchsamescan.mergePushButton, SIGNAL('clicked()'),self.pilRefSSMerge) #merge scans
-        self.connect(self.uirefpatchsamescan.nextPushButton, SIGNAL('clicked()'),self.pilRefSSNext) #go to the next overlap
+        # self.connect(self.uirefpatchsamescan.dropPushButton, SIGNAL('clicked()'),self.pilRefSSDrop) #drop scans
+        self.uirefpatchsamescan.dropPushButton.clicked.connect(self.pilRefSSDrop)
+        # self.connect(self.uirefpatchsamescan.mergePushButton, SIGNAL('clicked()'),self.pilRefSSMerge) #merge scans
+        self.uirefpatchsamescan.mergePushButton.clicked.connect(self.pilRefSSMerge)
+        # self.connect(self.uirefpatchsamescan.nextPushButton, SIGNAL('clicked()'),self.pilRefSSNext) #go to the next overlap
+        self.uirefpatchsamescan.nextPushButton.clicked.connect(self.pilRefSSNext)
         self.pilRefSameScanPlot()
     
     def pilRefSameScanPlot(self):  
@@ -4262,7 +4295,8 @@ class MainWindow (QMainWindow):
         self.g_l2=[self.specPar[i]['g_l2'] for i in self.selectedScanNums]
         self.uig_l2.g_l2ScanLineEdit.setText(str(scannum)[1:-1])
         self.uig_l2.g_l2CenterLineEdit.setText(str(self.g_l2center)[1:-1])
-        self.connect(self.uig_l2.g_l2CalPushButton,SIGNAL('clicked()'), self.g_l2plot)
+        # self.connect(self.uig_l2.g_l2CalPushButton,SIGNAL('clicked()'), self.g_l2plot)
+        self.uig_l2.g_l2CalPushButton.clicked.connect(self.g_l2plot)
         Dialog.exec_()
         
     def g_l2plot(self):
@@ -4310,7 +4344,8 @@ class MainWindow (QMainWindow):
         self.g_l2=[self.specPar[i]['g_l2'] for i in self.selectedScanNums]
         self.uig_l3.g_l3ScanLineEdit.setText(str(scannum)[1:-1])
         self.uig_l3.g_l3CenterLineEdit.setText(str(self.g_l3center)[1:-1])
-        self.connect(self.uig_l3.g_l3CalPushButton,SIGNAL('clicked()'), self.g_l3plot)
+        # self.connect(self.uig_l3.g_l3CalPushButton,SIGNAL('clicked()'), self.g_l3plot)
+        self.uig_l3.g_l3CalPushButton.clicked.connect(self.g_l3plot)
         Dialog.exec_()
         
     def g_l3plot(self):
@@ -4532,8 +4567,10 @@ class MainWindow (QMainWindow):
                 for j in range(4):
                     self.uiplotscale.scaleTW.setItem(i,j,QTableWidgetItem(str(self.plotscale[i][j])))
                     self.uiplotscale.scaleTW.item(i,j).setTextAlignment(Qt.AlignCenter)
-            self.connect(self.uiplotscale.scaleTW, SIGNAL('cellChanged(int,int)'), self.updatePlotScale) #update the ref scale and plot
-            self.connect(self.uiplotscale.closePB,SIGNAL('clicked()'), self.closePlotScale) #close the scale setup window
+            # self.connect(self.uiplotscale.scaleTW, SIGNAL('cellChanged(int,int)'), self.updatePlotScale) #update the ref scale and plot
+            self.uiplotscale.scaleTW.cellChanged.connect(self.updatePlotScale)
+            # self.connect(self.uiplotscale.closePB,SIGNAL('clicked()'), self.closePlotScale) #close the scale setup window
+            self.uiplotscale.closePB.clicked.connect(self.closePlotScale)
             
     def updatePlotScale(self): #update the scale of each data in the plot
         row=len(self.selectedplotfiles_rows)
@@ -4586,15 +4623,22 @@ class MainWindow (QMainWindow):
                 self.uipeakfit.bgTW.setItem(i,0,QTableWidgetItem(str(self.fitbgpara[i])))
                 self.peakbgparadic[i]=[self.fitbgpara[i],False,None,None]
             self.updatePeakParaName()
-            self.connect(self.uipeakfit.closePushButton, SIGNAL('clicked()'), self.closePeakFit) #close the peak fit window
-            self.connect(self.uipeakfit.fitPushButton, SIGNAL('clicked()'), self.fitPeakFit) #fit the selected data
-            self.connect(self.uipeakfit.numberOfPeakSpinBox, SIGNAL('valueChanged(int)'), self.modPeakPara) #change parameters with number of peaks
-            self.connect(self.uipeakfit.bgSpinBox, SIGNAL('valueChanged(int)'), self.modBGPara) #change parameters for the bg
-            self.connect(self.uipeakfit.exportFitPushButton,SIGNAL('clicked()'), self.savePeakFit) #save peak fit
-            self.connect(self.uipeakfit.exportParaPushButton,SIGNAL('clicked()'), self.savePeakPara) #save peak fit
-            self.connect(self.uipeakfit.peakTW,SIGNAL('cellDoubleClicked(int,int)'),partial(self.setupPeakPara,'peak')) #setup the peak para limits. 
-            self.connect(self.uipeakfit.bgTW,SIGNAL('cellDoubleClicked(int,int)'),partial(self.setupPeakPara,'bg')) #setup the peak bg para limits.
-            
+            # self.connect(self.uipeakfit.closePushButton, SIGNAL('clicked()'), self.closePeakFit) #close the peak fit window
+            self.uipeakfit.closePushButton.clicked.connect(self.closePeakFit)
+            # self.connect(self.uipeakfit.fitPushButton, SIGNAL('clicked()'), self.fitPeakFit) #fit the selected data
+            self.uipeakfit.fitPushButton.clicked.connect(self.fitPeakFit)
+            # self.connect(self.uipeakfit.numberOfPeakSpinBox, SIGNAL('valueChanged(int)'), self.modPeakPara) #change parameters with number of peaks
+            self.uipeakfit.numberOfPeakSpinBox.valueChanged.connect(self.modPeakPara)
+            # self.connect(self.uipeakfit.bgSpinBox, SIGNAL('valueChanged(int)'), self.modBGPara) #change parameters for the bg
+            self.uipeakfit.bgSpinBox.valueChanged.connect(self.modBGPara)
+            # self.connect(self.uipeakfit.exportFitPushButton,SIGNAL('clicked()'), self.savePeakFit) #save peak fit
+            self.uipeakfit.exportParaPushButton.clicked.connect(self.savePeakFit)
+            # self.connect(self.uipeakfit.exportParaPushButton,SIGNAL('clicked()'), self.savePeakPara) #save peak fit
+            self.uipeakfit.exportParaPushButton.clicked.connect(self.savePeakPara)
+            # self.connect(self.uipeakfit.peakTW,SIGNAL('cellDoubleClicked(int,int)'),partial(self.setupPeakPara,'peak')) #setup the peak para limits.
+            self.uipeakfit.peakTW.cellDoubleClicked.connect(partial(self.setupPeakPara, 'peak'))
+            # self.connect(self.uipeakfit.bgTW,SIGNAL('cellDoubleClicked(int,int)'),partial(self.setupPeakPara,'bg')) #setup the peak bg para limits.
+            self.uipeakfit.bgTW.cellDoubleClicked.connect(partial(self.setupPeakPara,'bg'))
     
     def closePeakFit(self): # close the peak fit window
         self.uipeakfit.close()
@@ -4673,8 +4717,10 @@ class MainWindow (QMainWindow):
                 self.uipara.maxCB.setCheckState(2)
                 self.uipara.maxLE.setText(str(self.peakbgparadic[self.paranum][3]))
         self.uipara.show()
-        self.connect(self.uipara.cancelPB, SIGNAL('clicked()'), self.cancelPeakPara)
-        self.connect(self.uipara.okPB, SIGNAL('clicked()'), partial(self.takePeakPara,index))
+        # self.connect(self.uipara.cancelPB, SIGNAL('clicked()'), self.cancelPeakPara)
+        self.uipara.cancelPB.clicked.connect(self.cancelPeakPara)
+        # self.connect(self.uipara.okPB, SIGNAL('clicked()'), partial(self.takePeakPara,index))
+        self.uipara.okPB.clicked.connect(partial(self.takePeakPara,index))
         
     def cancelPeakPara(self):
         self.uipara.close()

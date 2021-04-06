@@ -173,7 +173,7 @@ class TwoDDetector:
             sumData=np.zeros((self.NROWS,self.NCOLS))
             sumErrorData=np.zeros((self.NROWS,self.NCOLS))
             count=0
-            for i in data.iterkeys():
+            for i in data.keys():
                 sumData=sumData+data[i]*absfac**absnum[count]/mon[count]
                 sumErrorData=sumErrorData+(errorData[i]**2/mon[count]**2+data[i]**2/mon[count]**3)*absfac**(2.0*absnum[count])
                 count=count+1
@@ -242,8 +242,8 @@ class TwoDDetector:
         if vroi==None:
             vroi=self.vroi
         self.sumFiles(data,errordata, absfac=absfac,absnum=absnum,mon=mon)
-        hroi=map(int,hroi)
-        vroi=map(int,vroi)
+        hroi=list(map(int,hroi))
+        vroi=list(map(int,vroi))
         y=np.arange(vroi[0], vroi[1]+1)  #create a array from x-axis
         hint=np.sum(self.imageData[vroi[0]:vroi[1]+1, hroi[0]:hroi[1]+1], axis=1)
         hinterr=np.sqrt(np.sum(self.errorData[vroi[0]:vroi[1]+1, hroi[0]:hroi[1]+1]**2, axis=1))
@@ -270,8 +270,8 @@ class TwoDDetector:
         self.sumFiles(data,errordata, absfac=absfac,absnum=absnum,mon=mon)
         #if np.abs(alpha)<0.001:
         #    sh=0
-        hroi=map(int,hroi)
-        vroi=map(int,vroi)
+        hroi=list(map(int,hroi))
+        vroi=list(map(int,vroi))
         x=np.arange(hroi[0], hroi[1]+1)
         vint=np.sum(self.imageData[vroi[0]:vroi[1]+1, hroi[0]:hroi[1]+1], axis=0)
         vinterr=np.sqrt(np.sum(self.errorData[vroi[0]:vroi[1]+1, hroi[0]:hroi[1]+1]**2, axis=0))
@@ -300,14 +300,14 @@ class TwoDDetector:
         max=np.max(self.imageData)*100
         slit=[slit[1], slit[0]]
         cen=[cen[1], cen[0]]
-        for i in range(cen[1]-(slit[1]+1)/2,  cen[1]+(slit[1]+1)/2+1):
-            self.imageROI[cen[0]-(slit[0]+1)/2, i]=max
-            self.imageROI[cen[0]+(slit[0]+1)/2, i]=max
-        for j in range(cen[0]-(slit[0]+1)/2,  cen[0]+(slit[0]+1)/2+1):
-            self.imageROI[j, cen[1]-(slit[1]+1)/2]=max
-            self.imageROI[j, cen[1]+(slit[1]+1)/2]=max
-        self.sig=np.sum(self.imageData[cen[0]-(slit[0]+1)/2:cen[0]+(slit[0]+1)/2+1,  cen[1]-(slit[1]+1)/2:cen[1]+(slit[1]+1)/2+1])
-        self.sigerr=np.sqrt(np.sum(self.errorData[cen[0]-(slit[0]+1)/2:cen[0]+(slit[0]+1)/2+1,  cen[1]-(slit[1]+1)/2:cen[1]+(slit[1]+1)/2+1]**2))
+        for i in range(cen[1]-(slit[1]+1)//2,  cen[1]+(slit[1]+1)//2+1):
+            self.imageROI[cen[0]-(slit[0]+1)//2, i]=max
+            self.imageROI[cen[0]+(slit[0]+1)//2, i]=max
+        for j in range(cen[0]-(slit[0]+1)//2,  cen[0]+(slit[0]+1)//2+1):
+            self.imageROI[j, cen[1]-(slit[1]+1)//2]=max
+            self.imageROI[j, cen[1]+(slit[1]+1)//2]=max
+        self.sig=np.sum(self.imageData[cen[0]-(slit[0]+1)//2:cen[0]+(slit[0]+1)//2+1,  cen[1]-(slit[1]+1)//2:cen[1]+(slit[1]+1)//2+1])
+        self.sigerr=np.sqrt(np.sum(self.errorData[cen[0]-(slit[0]+1)//2:cen[0]+(slit[0]+1)//2+1,  cen[1]-(slit[1]+1)//2:cen[1]+(slit[1]+1)//2+1]**2))
         if bg!=None:
             self.lbg=0
             self.lbgerr=0
@@ -320,24 +320,24 @@ class TwoDDetector:
             if dir=='H':
                 self.bglcen=cen[1]-int(bg*slit[1])
                 self.bgrcen=cen[1]+int(bg*slit[1])
-                for i in range(self.bglcen-(slit[1]+1)/2,  self.bglcen+(slit[1]+1)/2+1):
-                    self.imageROI[cen[0]-(slit[0]+1)/2, i]=max
-                    self.imageROI[cen[0]+(slit[0]+1)/2, i]=max
-                for j in range(cen[0]-(slit[0]+1)/2,  cen[0]+(slit[0]+1)/2+1):
-                    self.imageROI[j, self.bglcen-(slit[1]+1)/2]=max
-                    self.imageROI[j, self.bglcen+(slit[1]+1)/2]=max
-                for i in range(self.bgrcen-(slit[1]+1)/2,  self.bgrcen+(slit[1]+1)/2+1):
-                    self.imageROI[cen[0]-(slit[0]+1)/2, i]=max
-                    self.imageROI[cen[0]+(slit[0]+1)/2, i]=max
-                for j in range(cen[0]-(slit[0]+1)/2,  cen[0]+(slit[0]+1)/2+1):
-                    self.imageROI[j, self.bgrcen-(slit[1]+1)/2]=max
-                    self.imageROI[j, self.bgrcen+(slit[1]+1)/2]=max
+                for i in range(self.bglcen-(slit[1]+1)//2,  self.bglcen+(slit[1]+1)//2+1):
+                    self.imageROI[cen[0]-(slit[0]+1)//2, i]=max
+                    self.imageROI[cen[0]+(slit[0]+1)//2, i]=max
+                for j in range(cen[0]-(slit[0]+1)//2,  cen[0]+(slit[0]+1)//2+1):
+                    self.imageROI[j, self.bglcen-(slit[1]+1)//2]=max
+                    self.imageROI[j, self.bglcen+(slit[1]+1)//2]=max
+                for i in range(self.bgrcen-(slit[1]+1)//2,  self.bgrcen+(slit[1]+1)//2+1):
+                    self.imageROI[cen[0]-(slit[0]+1)//2, i]=max
+                    self.imageROI[cen[0]+(slit[0]+1)//2, i]=max
+                for j in range(cen[0]-(slit[0]+1)//2,  cen[0]+(slit[0]+1)//2+1):
+                    self.imageROI[j, self.bgrcen-(slit[1]+1)//2]=max
+                    self.imageROI[j, self.bgrcen+(slit[1]+1)//2]=max
 
-                for j in range(cen[0]-(slit[0]+1)/2,  cen[0]+(slit[0]+1)/2+1):
-                    for i in range(self.bglcen-(slit[1]+1)/2,  self.bglcen+(slit[1]+1)/2+1):
+                for j in range(cen[0]-(slit[0]+1)//2,  cen[0]+(slit[0]+1)//2+1):
+                    for i in range(self.bglcen-(slit[1]+1)//2,  self.bglcen+(slit[1]+1)//2+1):
                         self.lbg=self.lbg+self.imageData[j, i]
                         self.lbgerr=self.lbgerr+self.errorData[j, i]**2
-                    for i in range(self.bgrcen-(slit[1]+1)/2,  self.bgrcen+(slit[1]+1)/2+1):
+                    for i in range(self.bgrcen-(slit[1]+1)//2,  self.bgrcen+(slit[1]+1)//2+1):
                         self.rbg=self.rbg+self.imageData[j, i]
                         self.rbgerr=self.rbgerr+self.errorData[j, i]**2
                 self.lbgerr=np.sqrt(self.lbgerr)
@@ -345,24 +345,24 @@ class TwoDDetector:
             else:
                 self.bgucen=cen[0]-int(bg*slit[0])
                 self.bgdcen=cen[0]+int(bg*slit[0])
-                for i in range(self.bgucen-(slit[0]+1)/2,  self.bgucen+(slit[0]+1)/2+1):
-                    self.imageROI[i,cen[1]-(slit[1]+1)/2]=max
-                    self.imageROI[i,cen[1]+(slit[1]+1)/2]=max
-                for j in range(cen[1]-(slit[1]+1)/2,  cen[1]+(slit[1]+1)/2+1):
-                    self.imageROI[self.bgucen-(slit[0]+1)/2,j]=max
-                    self.imageROI[self.bgucen+(slit[0]+1)/2,j]=max
-                for i in range(self.bgdcen-(slit[0]+1)/2,  self.bgdcen+(slit[0]+1)/2+1):
-                    self.imageROI[i, cen[1]-(slit[1]+1)/2]=max
-                    self.imageROI[i, cen[1]+(slit[1]+1)/2]=max
-                for j in range(cen[1]-(slit[1]+1)/2,  cen[1]+(slit[1]+1)/2+1):
-                    self.imageROI[self.bgdcen-(slit[0]+1)/2,j]=max
-                    self.imageROI[self.bgdcen+(slit[0]+1)/2,j]=max
+                for i in range(self.bgucen-(slit[0]+1)//2,  self.bgucen+(slit[0]+1)//2+1):
+                    self.imageROI[i,cen[1]-(slit[1]+1)//2]=max
+                    self.imageROI[i,cen[1]+(slit[1]+1)//2]=max
+                for j in range(cen[1]-(slit[1]+1)//2,  cen[1]+(slit[1]+1)//2+1):
+                    self.imageROI[self.bgucen-(slit[0]+1)//2,j]=max
+                    self.imageROI[self.bgucen+(slit[0]+1)//2,j]=max
+                for i in range(self.bgdcen-(slit[0]+1)//2,  self.bgdcen+(slit[0]+1)//2+1):
+                    self.imageROI[i, cen[1]-(slit[1]+1)//2]=max
+                    self.imageROI[i, cen[1]+(slit[1]+1)//2]=max
+                for j in range(cen[1]-(slit[1]+1)//2,  cen[1]+(slit[1]+1)//2+1):
+                    self.imageROI[self.bgdcen-(slit[0]+1)//2,j]=max
+                    self.imageROI[self.bgdcen+(slit[0]+1)//2,j]=max
 
-                for j in range(cen[1]-(slit[1]+1)/2,  cen[1]+(slit[1]+1)/2+1):
-                    for i in range(self.bgucen-(slit[0]+1)/2,  self.bgucen+(slit[0]+1)/2+1):
+                for j in range(cen[1]-(slit[1]+1)//2,  cen[1]+(slit[1]+1)//2+1):
+                    for i in range(self.bgucen-(slit[0]+1)//2,  self.bgucen+(slit[0]+1)//2+1):
                         self.tbg=self.tbg+self.imageData[i, j]
                         self.tbgerr=self.tbgerr+self.errorData[i, j]**2
-                    for i in range(self.bgdcen-(slit[0]+1)/2,  self.bgdcen+(slit[0]+1)/2+1):
+                    for i in range(self.bgdcen-(slit[0]+1)//2,  self.bgdcen+(slit[0]+1)//2+1):
                         self.bbg=self.bbg+self.imageData[i, j]
                         self.bbgerr=self.bbgerr+self.errorData[i, j]**2
                 self.tbgerr=np.sqrt(self.tbgerr)
@@ -427,7 +427,7 @@ class TwoDDetector:
         
     
     def peakFun(self, x, y, p):
-        X, Y=pylab.meshgrid(map(float,  x), map(float, y))
+        X, Y=pylab.meshgrid(np.array(x,dtype=float), np.array(y,dtype=float))
         return p[0]*pylab.exp(-(X-p[1])**2/2/p[2]**2-(Y-p[3])**2/2/p[4]**2)+p[5]
 
     def peakRes(self, p, x, y, z, par):
@@ -446,9 +446,9 @@ class TwoDDetector:
     def badPix_corr(self, par=None, slit=[10, 10], cen=[10, 10], bad=0, bfac=1,  min=None, max=None, bg=None, cmap='gray', dir='h', plot=0):
         slit=[slit[1], slit[0]]
         cen=[cen[1], cen[0]]
-        z=np.array(self.imageData[cen[0]-(slit[0]+1)/2:cen[0]+(slit[0]+1)/2+1, cen[1]-(slit[1]+1)/2: cen[1]+(slit[1]+1)/2+1])
-        x=range(cen[1]-(slit[1]+1)/2, cen[1]+(slit[1]+1)/2+1)
-        y=range(cen[0]-(slit[0]+1)/2, cen[0]+(slit[0]+1)/2+1)
+        z=np.array(self.imageData[cen[0]-(slit[0]+1)//2:cen[0]+(slit[0]+1)//2+1, cen[1]-(slit[1]+1)//2: cen[1]+(slit[1]+1)//2+1])
+        x=range(cen[1]-(slit[1]+1)//2, cen[1]+(slit[1]+1)//2+1)
+        y=range(cen[0]-(slit[0]+1)//2, cen[0]+(slit[0]+1)//2+1)
         if plot==1:
             f=pylab.figure()
             pylab.subplots_adjust(hspace=0.4)
@@ -467,9 +467,9 @@ class TwoDDetector:
         if par!=None:
             cen=[int(np.floor(par[3])), int(np.floor(par[1]))]
         #print cen
-        z=np.array(self.imageData[cen[0]-(slit[0]+1)/2:cen[0]+(slit[0]+1)/2+1, cen[1]-(slit[1]+1)/2: cen[1]+(slit[1]+1)/2+1])
-        x=range(cen[1]-(slit[1]+1)/2, cen[1]+(slit[1]+1)/2+1)
-        y=range(cen[0]-(slit[0]+1)/2, cen[0]+(slit[0]+1)/2+1)
+        z=np.array(self.imageData[cen[0]-(slit[0]+1)//2:cen[0]+(slit[0]+1)//2+1, cen[1]-(slit[1]+1)//2: cen[1]+(slit[1]+1)//2+1])
+        x=range(cen[1]-(slit[1]+1)//2, cen[1]+(slit[1]+1)//2+1)
+        y=range(cen[0]-(slit[0]+1)//2, cen[0]+(slit[0]+1)//2+1)
         self.peakRes(par, x, y, z,par)
         z1=self.peakFun(x, y, par)
         self.avres=np.average(self.res**2)
@@ -498,10 +498,10 @@ class TwoDDetector:
         if bg!=None:
             if dir=='H':
                 cenl=[cen[0], cen[1]-bg*slit[1]]
-                cenl=map(int,  cenl)
-                zleft=np.array(self.imageData[cenl[0]-(slit[0]+1)/2:cenl[0]+(slit[0]+1)/2+1, cenl[1]-(slit[1]+1)/2: cenl[1]+(slit[1]+1)/2+1])
-                xleft=range(cenl[1]-(slit[1]+1)/2, cenl[1]+(slit[1]+1)/2+1)
-                yleft=range(cenl[0]-(slit[0]+1)/2, cenl[0]+(slit[0]+1)/2+1)
+                cenl=list(map(int,  cenl))
+                zleft=np.array(self.imageData[cenl[0]-(slit[0]+1)//2:cenl[0]+(slit[0]+1)//2+1, cenl[1]-(slit[1]+1)//2: cenl[1]+(slit[1]+1)//2+1])
+                xleft=range(cenl[1]-(slit[1]+1)//2, cenl[1]+(slit[1]+1)//2+1)
+                yleft=range(cenl[0]-(slit[0]+1)//2, cenl[0]+(slit[0]+1)//2+1)
                 self.avebgleft=np.average(zleft)
                 self.resbgleft=zleft-self.avebgleft
                 if plot==1:
@@ -538,10 +538,10 @@ class TwoDDetector:
                     pylab.title('LBG w corr')
                     pylab.imshow(self.imageData[yleft[0]:yleft[-1]+1, xleft[0]:xleft[-1]+1], extent=[xleft[0], xleft[-1], yleft[-1], yleft[0]], interpolation='nearest', vmin=emin, vmax=emax, cmap='gray')
                 cenr=[cen[0], cen[1]+bg*slit[1]]
-                cenr=map(int,  cenr)
-                zright=np.array(self.imageData[cenr[0]-(slit[0]+1)/2:cenr[0]+(slit[0]+1)/2+1, cenr[1]-(slit[1]+1)/2: cenr[1]+(slit[1]+1)/2+1])
-                xright=range(cenr[1]-(slit[1]+1)/2, cenr[1]+(slit[1]+1)/2+1)
-                yright=range(cenr[0]-(slit[0]+1)/2, cenr[0]+(slit[0]+1)/2+1)
+                cenr=list(map(int,  cenr))
+                zright=np.array(self.imageData[cenr[0]-(slit[0]+1)//2:cenr[0]+(slit[0]+1)//2+1, cenr[1]-(slit[1]+1)//2: cenr[1]+(slit[1]+1)//2+1])
+                xright=range(cenr[1]-(slit[1]+1)//2, cenr[1]+(slit[1]+1)//2+1)
+                yright=range(cenr[0]-(slit[0]+1)//2, cenr[0]+(slit[0]+1)//2+1)
                 self.avebgright=np.average(zright)
                 self.resbgright=zright-self.avebgright
                 if plot==1:
@@ -581,10 +581,10 @@ class TwoDDetector:
                 return np.sum(self.imageData[y[0]:y[-1]+1, x[0]:x[-1]+1]),np.sqrt(np.sum(self.errorData[y[0]:y[-1]+1, x[0]:x[-1]+1]**2)), np.sum(self.imageData[yleft[0]:yleft[-1]+1, xleft[0]:xleft[-1]+1]),np.sqrt(np.sum(self.errorData[yleft[0]:yleft[-1]+1, xleft[0]:xleft[-1]+1]**2)),np.sum(self.imageData[yright[0]:yright[-1]+1, xright[0]:xright[-1]+1]),np.sqrt(np.sum(self.errorData[yright[0]:yright[-1]+1, xright[0]:xright[-1]+1]**2))
             else:
                 cenu=[cen[0]+bg*slit[0], cen[1]]
-                cenu=map(int,  cenu)
-                zup=self.imageData[cenu[0]-(slit[0]+1)/2:cenu[0]+(slit[0]+1)/2+1, cenu[1]-(slit[1]+1)/2: cenu[1]+(slit[1]+1)/2+1]
-                xup=range(cenu[1]-(slit[1]+1)/2, cenu[1]+(slit[1]+1)/2+1)
-                yup=range(cenu[0]-(slit[0]+1)/2, cenu[0]+(slit[0]+1)/2+1)
+                cenu=list(map(int,  cenu))
+                zup=self.imageData[cenu[0]-(slit[0]+1)//2:cenu[0]+(slit[0]+1)//2+1, cenu[1]-(slit[1]+1)//2: cenu[1]+(slit[1]+1)//2+1]
+                xup=range(cenu[1]-(slit[1]+1)//2, cenu[1]+(slit[1]+1)//2+1)
+                yup=range(cenu[0]-(slit[0]+1)//2, cenu[0]+(slit[0]+1)//2+1)
                 self.avebgup=np.average(zup)
                 self.resbgup=zup-self.avebgup
                 if plot==1:
@@ -621,10 +621,10 @@ class TwoDDetector:
                     pylab.title('UBG w corr')
                     pylab.imshow(self.imageData[yup[0]:yup[-1]+1, xup[0]:xup[-1]+1], extent=[xup[0], xup[-1], yup[-1], yup[0]], interpolation='nearest', vmin=emin, vmax=emax, cmap='gray')
                 cend=[cen[0]-bg*slit[0], cen[1]]
-                cend=map(int,  cend)
-                zdown=self.imageData[cend[0]-(slit[0]+1)/2:cend[0]+(slit[0]+1)/2+1, cend[1]-(slit[1]+1)/2: cend[1]+(slit[1]+1)/2+1]
-                xdown=range(cend[1]-(slit[1]+1)/2, cend[1]+(slit[1]+1)/2+1)
-                ydown=range(cend[0]-(slit[0]+1)/2, cend[0]+(slit[0]+1)/2+1)
+                cend=list(map(int,  cend))
+                zdown=self.imageData[cend[0]-(slit[0]+1)//2:cend[0]+(slit[0]+1)//2+1, cend[1]-(slit[1]+1)//2: cend[1]+(slit[1]+1)//2+1]
+                xdown=range(cend[1]-(slit[1]+1)//2, cend[1]+(slit[1]+1)//2+1)
+                ydown=range(cend[0]-(slit[0]+1)//2, cend[0]+(slit[0]+1)//2+1)
                 self.avebgdown=np.average(zdown)
                 self.resbgdown=zdown-self.avebgdown
                 if plot==1:
@@ -668,36 +668,36 @@ class TwoDDetector:
     def sumROI(self, slit=[10, 10], cen=[10, 10], bg=None, cmap='gray', dir='h'):
         slit=[slit[1]-2, slit[0]-2]
         cen=[cen[1], cen[0]]
-        z=np.array(self.imageData[cen[0]-(slit[0]+1)/2:cen[0]+(slit[0]+1)/2+1, cen[1]-(slit[1]+1)/2: cen[1]+(slit[1]+1)/2+1])
-        x=range(cen[1]-(slit[1]+1)/2, cen[1]+(slit[1]+1)/2+1)
-        y=range(cen[0]-(slit[0]+1)/2, cen[0]+(slit[0]+1)/2+1)
+        z=np.array(self.imageData[cen[0]-(slit[0]+1)//2:cen[0]+(slit[0]+1)//2+1, cen[1]-(slit[1]+1)//2: cen[1]+(slit[1]+1)//2+1])
+        x=range(cen[1]-(slit[1]+1)//2, cen[1]+(slit[1]+1)//2+1)
+        y=range(cen[0]-(slit[0]+1)//2, cen[0]+(slit[0]+1)//2+1)
         #print x,y,len(x),len(y)
         if bg==None:
             return np.sum(self.imageData[y[0]:y[-1]+1, x[0]:x[-1]+1]),np.sqrt(np.sum(self.errorData[y[0]:y[-1]+1, x[0]:x[-1]+1]**2))
         else:
             if dir=='H':
                 cenl=[cen[0], cen[1]-bg*slit[1]]
-                cenl=map(int,  cenl)
-                zleft=np.array(self.imageData[cenl[0]-(slit[0]+1)/2:cenl[0]+(slit[0]+1)/2+1, cenl[1]-(slit[1]+1)/2: cenl[1]+(slit[1]+1)/2+1])
-                xleft=range(cenl[1]-(slit[1]+1)/2, cenl[1]+(slit[1]+1)/2+1)
-                yleft=range(cenl[0]-(slit[0]+1)/2, cenl[0]+(slit[0]+1)/2+1)
+                cenl=list(map(int,  cenl))
+                zleft=np.array(self.imageData[cenl[0]-(slit[0]+1)//2:cenl[0]+(slit[0]+1)//2+1, cenl[1]-(slit[1]+1)//2: cenl[1]+(slit[1]+1)//2+1])
+                xleft=range(cenl[1]-(slit[1]+1)//2, cenl[1]+(slit[1]+1)//2+1)
+                yleft=range(cenl[0]-(slit[0]+1)//2, cenl[0]+(slit[0]+1)//2+1)
                 cenr=[cen[0], cen[1]+bg*slit[1]]
-                cenr=map(int,  cenr)
-                zright=np.array(self.imageData[cenr[0]-(slit[0]+1)/2:cenr[0]+(slit[0]+1)/2+1, cenr[1]-(slit[1]+1)/2: cenr[1]+(slit[1]+1)/2+1])
-                xright=range(cenr[1]-(slit[1]+1)/2, cenr[1]+(slit[1]+1)/2+1)
-                yright=range(cenr[0]-(slit[0]+1)/2, cenr[0]+(slit[0]+1)/2+1)
+                cenr=list(map(int,  cenr))
+                zright=np.array(self.imageData[cenr[0]-(slit[0]+1)//2:cenr[0]+(slit[0]+1)//2+1, cenr[1]-(slit[1]+1)//2: cenr[1]+(slit[1]+1)//2+1])
+                xright=range(cenr[1]-(slit[1]+1)//2, cenr[1]+(slit[1]+1)//2+1)
+                yright=range(cenr[0]-(slit[0]+1)//2, cenr[0]+(slit[0]+1)//2+1)
                 return np.sum(self.imageData[y[0]:y[-1]+1, x[0]:x[-1]+1]),np.sqrt(np.sum(self.errorData[y[0]:y[-1]+1, x[0]:x[-1]+1]**2)), np.sum(self.imageData[yleft[0]:yleft[-1]+1, xleft[0]:xleft[-1]+1]),np.sqrt(np.sum(self.errorData[yleft[0]:yleft[-1]+1, xleft[0]:xleft[-1]+1]**2)),np.sum(self.imageData[yright[0]:yright[-1]+1, xright[0]:xright[-1]+1]),np.sqrt(np.sum(self.errorData[yright[0]:yright[-1]+1, xright[0]:xright[-1]+1]**2))
             else:
                 cenu=[cen[0]+bg*slit[0], cen[1]]
-                cenu=map(int,  cenu)
-                zup=self.imageData[cenu[0]-(slit[0]+1)/2:cenu[0]+(slit[0]+1)/2+1, cenu[1]-(slit[1]+1)/2: cenu[1]+(slit[1]+1)/2+1]
-                xup=range(cenu[1]-(slit[1]+1)/2, cenu[1]+(slit[1]+1)/2+1)
-                yup=range(cenu[0]-(slit[0]+1)/2, cenu[0]+(slit[0]+1)/2+1)
+                cenu=list(map(int,  cenu))
+                zup=self.imageData[cenu[0]-(slit[0]+1)//2:cenu[0]+(slit[0]+1)//2+1, cenu[1]-(slit[1]+1)//2: cenu[1]+(slit[1]+1)//2+1]
+                xup=range(cenu[1]-(slit[1]+1)//2, cenu[1]+(slit[1]+1)//2+1)
+                yup=range(cenu[0]-(slit[0]+1)//2, cenu[0]+(slit[0]+1)//2+1)
                 cend=[cen[0]-bg*slit[0], cen[1]]
-                cend=map(int,  cend)
-                zdown=self.imageData[cend[0]-(slit[0]+1)/2:cend[0]+(slit[0]+1)/2+1, cend[1]-(slit[1]+1)/2: cend[1]+(slit[1]+1)/2+1]
-                xdown=range(cend[1]-(slit[1]+1)/2, cend[1]+(slit[1]+1)/2+1)
-                ydown=range(cend[0]-(slit[0]+1)/2, cend[0]+(slit[0]+1)/2+1)
+                cend=list(map(int,  cend))
+                zdown=self.imageData[cend[0]-(slit[0]+1)//2:cend[0]+(slit[0]+1)//2+1, cend[1]-(slit[1]+1)//2: cend[1]+(slit[1]+1)//2+1]
+                xdown=range(cend[1]-(slit[1]+1)//2, cend[1]+(slit[1]+1)//2+1)
+                ydown=range(cend[0]-(slit[0]+1)//2, cend[0]+(slit[0]+1)//2+1)
                 return np.sum(self.imageData[y[0]:y[-1]+1, x[0]:x[-1]+1]),np.sqrt(np.sum(self.errorData[y[0]:y[-1]+1, x[0]:x[-1]+1]**2)),np.sum(self.imageData[yup[0]:yup[-1]+1, xup[0]:xup[-1]+1]),np.sqrt(np.sum(self.errorData[yup[0]:yup[-1]+1, xup[0]:xup[-1]+1]**2)), np.sum(self.imageData[ydown[0]:ydown[-1]+1, xdown[0]:xdown[-1]+1]),np.sqrt(np.sum(self.errorData[ydown[0]:ydown[-1]+1, xdown[0]:xdown[-1]+1]**2)) 
 
 
