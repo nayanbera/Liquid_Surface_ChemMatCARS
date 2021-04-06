@@ -42,7 +42,7 @@ class TwoDDetector:
                 else:
                     im=Image.open(str(fname))
             except:
-                print  'The File '+str(fname)+' or Path '+str(self.path)+' doesnot Exist!'
+                print  ('The File '+str(fname)+' or Path '+str(self.path)+' doesnot Exist!')
                 return -1
             #self.imageData=np.array(im.rotate(270).transpose(Image.FLIP_LEFT_RIGHT).getdata())
             self.imageData=np.array(im.transpose(Image.ROTATE_270).getdata())
@@ -65,7 +65,7 @@ class TwoDDetector:
                 else:
                     self.fid=open(fname, 'rb')
             except:
-                print  'The File '+str(fname)+' or Path '+str(self.path)+' doesnot exist!'
+                print  ('The File '+str(fname)+' or Path '+str(self.path)+' doesnot exist!')
                 return -1
             self.imageHeader={}
             for i in range(0,96):
@@ -131,7 +131,7 @@ class TwoDDetector:
             if self.NOVERFL[0]>0:
                 self.imageData=self.imageData+32
             if np.sum(self.imageData)!=self.NCOUNTS:
-                print 'Warning::: '+fname+' is not read properly!!'
+                print ('Warning::: '+fname+' is not read properly!!')
             self.imageData=np.where(self.imageData-32<=0,0,self.imageData-32)
             self.imageData=self.removeBadPix(self.imageData,iteration=bad_pix)
             self.errorData=np.sqrt(self.bruk_a*self.imageData*(1 + self.bruk_b + self.imageData/(self.bruk_a*self.bruk_b)))            

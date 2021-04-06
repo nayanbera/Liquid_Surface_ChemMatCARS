@@ -2,8 +2,8 @@
 import sys
 import os
 import numpy as np
-from PyQt4.QtGui import QProgressDialog
-from PyQt4.QtCore import Qt
+from PyQt5.QtWidgets import QProgressDialog
+from PyQt5.QtCore import Qt
 
 class specread:
     def __init__(self, specfile, startLineNum=0, endScanNum=0, beamline='APS-15IDC',det='CCD',data={},par={}):
@@ -39,7 +39,7 @@ class specread:
         if fdata[0][:2]!='#F':
             self.Data['NumOfScans']=0
             self.Data['Message']='The file is not a valid specfile!!'
-            print 'Error:: The file is not a valid specfile!!'
+            print ('Error:: The file is not a valid specfile!!')
         else:
             startScanLineNums=[i for i in range(startLineNum,len(fdata)) if fdata[i][:2]=='#S']
             self.progressDialog.setMaximum(len(startScanLineNums))
@@ -62,7 +62,7 @@ class specread:
 #                self.Data['ScanLines']=self.Data['ScanLines'][:-1]#+scanLines[1:]
 #                self.Data['StartScanLineNums']=self.Data['StartScanLineNums'][:-1]#+startScanLineNums
             if int(scanLines[-1].split()[1])!=len(startScanLineNums)+endScanNum-offset:
-                print len(startScanLineNums), scanLines[-1].split()[1], endScanNum
+                print (len(startScanLineNums), scanLines[-1].split()[1], endScanNum)
                 self.Data['Error']=True
                 self.Data['Message']='There are identical scans in the file'
             else:
@@ -84,7 +84,7 @@ class specread:
                     if line[:2]=='#P':
                         parName=line[4:].split()
                         start=start+1
-                        parValue=map(eval,fdata[start][1:].split())
+                        parValue=list(map(eval,fdata[start][1:].split()))
                         for j in range(len(parName)):
                             self.Par[num][parName[j]]=parValue[j]
                     if line[:2]=='#W':
@@ -99,7 +99,7 @@ class specread:
                         self.Par[num]['Absorber']=eval(tmppar[1])
                     if line[:2]=='#Q':
                         tmppar=line[2:].split()
-                        self.Par[num]['Q']=map(eval, tmppar)
+                        self.Par[num]['Q']=list(map(eval, tmppar))
                     if line[:2]=='#V':
                         self.Par[num]['Detector']='Vortex'
                     if line[:3]=='#B0':
@@ -111,14 +111,14 @@ class specread:
                             self.Par[num]['Detector']='Bruker'
                     if line[:3]=='#B1':
                         try:
-                            tmppar=map(eval, line[3:].split())
+                            tmppar=list(map(eval, line[3:].split()))
                         except:
-                            tmppar=map(eval, line[3:].split()[:-1])
+                            tmppar=list(map(eval, line[3:].split()[:-1]))
                         self.Par[num]['DBPos']=tmppar[:2]
                         self.Par[num]['S2D_Dist']=tmppar[2]
                         self.Par[num]['S7D_Dist']=tmppar[3]
                     if line[:3]=='#B2':
-                        tmppar=map(eval, line[3:].split())
+                        tmppar=list(map(eval, line[3:].split()))
                         self.Par[num]['DBPos']=tmppar[:2]
                         self.Par[num]['S2D_Dist']=tmppar[2]
                         self.Par[num]['S7D_Dist']=tmppar[3]
@@ -127,10 +127,10 @@ class specread:
                         self.Data[num]['ScanVar']=scanVar
                     if line[0]!='#':
                         try:
-                            tmpdata.append(map(eval, line.split(  )))
+                            tmpdata.append(list(map(eval, line.split(  ))))
                         except:
                             self.Data[num]['Message']='Something wrong with Scan Number %d',num,'.Please check the the scan in the specfile.'
-                            print 'Something wrong with Scan Number %d',num
+                            print ('Something wrong with Scan Number %d',num)
                     start=start+1
                     try:
                         line=fdata[start]
@@ -177,7 +177,7 @@ class specread:
         if fdata[0][:2]!='#F':
             self.Data['NumOfScans']=0
             self.Data['Message']='The file is not a valid specfile!!'
-            print 'Error:: The file is not a valid specfile!!'
+            print ('Error:: The file is not a valid specfile!!')
         else:
             startScanLineNums=[i for i in range(startLineNum, len(fdata)) if fdata[i][:2]=='#S']
             self.progressDialog.setMaximum(len(startScanLineNums))

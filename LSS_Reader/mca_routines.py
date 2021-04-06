@@ -24,7 +24,7 @@ class mcaread:
         if fdata[0][:2]!='#F':
             self.Data['NumOfScans']=0
             self.Data['Message']='The file is not a valid specfile!!'
-            print 'Error:: The file is not a valid specfile!!'
+            print ('Error:: The file is not a valid specfile!!')
         else:
             startScanLineNums=[i for i in range(len(fdata)) if fdata[i][:2]=='#S']
             self.Data['StartScanLineNums']=startScanLineNums
@@ -85,7 +85,7 @@ class mcaread:
         if fdata[0][:2]!='#F':
             self.Data['NumOfScans']=0
             self.Data['Message']='The file is not a valid specfile!!'
-            print 'Error:: The file is not a valid specfile!!'
+            print ('Error:: The file is not a valid specfile!!')
         else:
             startScanLineNums=[i for i in range(len(fdata)) if fdata[i][:2]=='#S']
             self.Data['StartScanLineNums']=startScanLineNums
