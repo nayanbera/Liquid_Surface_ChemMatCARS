@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="312939c2-55a5-4314-acfc-cfae75a345d3" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/LSS_Reader/TwoDDetector.py" beforeDir="false" afterPath="$PROJECT_DIR$/LSS_Reader/TwoDDetector.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/LSS_Reader/mainwindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/LSS_Reader/mainwindow.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Reader/mca_routines.py" beforeDir="false" afterPath="$PROJECT_DIR$/LSS_Reader/mca_routines.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,6 +32,18 @@
       <option name="presentableId" value="Default" />
       <updated>1617680558814</updated>
     </task>
+    <task id="LOCAL-00001" summary="Updated all the modules for Python 3.8">
+      <created>1617726609967</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1617726609967</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Updated all the modules for Python 3.8" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated all the modules for Python 3.8" />
   </component>
 </project>

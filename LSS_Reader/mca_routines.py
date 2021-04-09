@@ -41,7 +41,7 @@ class mcaread:
                 while line[:2]!='@A':
                     if line[:7]=='#@CTIME':
                         tmppar=line[7:].split()
-                        self.Par[i]['Time']=map(eval, tmppar)
+                        self.Par[i]['Time']=list(map(eval, tmppar))
                     if line[:5]=='#Monc':
                         tmppar=line[5:].split()
                         self.Data[i]['Monc']=eval(tmppar[0])
@@ -52,23 +52,23 @@ class mcaread:
                             pass
                     if line[:2]=='#Q':
                         tmppar=line[2:].split()
-                        self.Par[i]['Q']=map(eval, tmppar)
+                        self.Par[i]['Q']=list(map(eval, tmppar))
                     if line[:7]=='#@CALIB':
                         tmppar=line[7:].split()
-                        self.Par[i]['Calib']=map(eval, tmppar)
+                        self.Par[i]['Calib']=list(map(eval, tmppar))
                     if line[:7]=='#Energy':
                         tempar=line[7:].split()
                         self.Par[i]['Energy']=eval(tempar[0])
                     start=start+1
                     line=fdata[start]
-                self.Data[i]['Vortex']=map(eval, line[2:-2].split())
+                self.Data[i]['Vortex']=list(map(eval, line[2:-2].split()))
                 start=start+1
                 line=fdata[start]
                 while line!='\n':
                     if line[-2]=='\\':
-                        self.Data[i]['Vortex']=self.Data[i]['Vortex']+map(eval, line[:-2].split())
+                        self.Data[i]['Vortex']=self.Data[i]['Vortex']+list(map(eval, line[:-2].split()))
                     else:
-                        self.Data[i]['Vortex']=self.Data[i]['Vortex']+map(eval, line[:-1].split())
+                        self.Data[i]['Vortex']=self.Data[i]['Vortex']+list(map(eval, line[:-1].split()))
                     start=start+1
                     line=fdata[start]
                 if len(self.Par[i])==0:
@@ -108,20 +108,20 @@ class mcaread:
                         self.Data[i]['Monc']=eval(tmppar[0])
                     if line[:2]=='#Q':
                         tmppar=line[2:].split()
-                        self.Par[i]['Q']=map(eval, tmppar)
+                        self.Par[i]['Q']=list(map(eval, tmppar))
                     if line[:7]=='#@CALIB':
                         tmppar=line[7:].split()
-                        self.Par[i]['Calib']=map(eval, tmppar)
+                        self.Par[i]['Calib']=list(map(eval, tmppar))
                     start=start+1
                     line=fdata[start]
-                self.Data[i]['Vortex']=map(eval, line[2:-2].split())
+                self.Data[i]['Vortex']=list(map(eval, line[2:-2].split()))
                 start=start+1
                 line=fdata[start]
                 while line!='\n':
                     if line[-2]=='\\':
-                        self.Data[i]['Vortex']=self.Data[i]['Vortex']+map(eval, line[:-2].split())
+                        self.Data[i]['Vortex']=self.Data[i]['Vortex']+list(map(eval, line[:-2].split()))
                     else:
-                        self.Data[i]['Vortex']=self.Data[i]['Vortex']+map(eval, line[:-1].split())
+                        self.Data[i]['Vortex']=self.Data[i]['Vortex']+list(map(eval, line[:-1].split()))
                     start=start+1
                     line=fdata[start]
                 if len(self.Par[i])==0:

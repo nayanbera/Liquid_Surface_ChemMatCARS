@@ -1,7 +1,8 @@
-from PyQt5 import uic, QtGui, QtCore
+from PyQt5 import uic, Qt#, QtGui, QtCore
 # from PyQt5.QtCore import *
 # from PyQt5.QtGui import *
-# from PyQt5.QtWidgets import QMainWindow, QLabel, QComboBox, QFileDialog, QMessageBox, QCheckBox, QLineEdit, QListWidget
+from PyQt5.QtGui import QIcon
+from PyQt5.QtWidgets import QFileDialog, QProgressDialog, QMessageBox
 from PyQt5.Qt import *
 from spec_routines import specread
 from mca_routines import mcaread
@@ -80,8 +81,8 @@ class MainWindow (QMainWindow):
         self.halftab='      '
         self.xyzformat='x=%.3f,y=%.3f,z=%.2e'
         # mpl.rc('axes',color_cycle=['b','r','g','c','m','y','k'])
-        self.ui.plotMoveUpPushButton.setIcon(QtGui.QIcon('arrow_up.png'))
-        self.ui.plotMoveDownPushButton.setIcon(QtGui.QIcon('arrow_down.png'))
+        self.ui.plotMoveUpPushButton.setIcon(QIcon('arrow_up.png'))
+        self.ui.plotMoveDownPushButton.setIcon(QIcon('arrow_down.png'))
         self.init_signals()
 
 
@@ -671,7 +672,7 @@ class MainWindow (QMainWindow):
         self.selectedScanNums=[int(str(items.text()).split()[1]) for items in self.selectedScans]
         try:    
             for i in self.selectedScanNums:
-                self.ui.scanListWidget.setItemSelected(self.ui.scanListWidget.item(i-1),False)
+                self.ui.scanListWidget.item(i-1).setSelected(False)#.setItemSelected(self.ui.scanListWidget.item(i-1),False)
             self.selectedScanNums=[]
         except:
             self.selectedScanNums=[]
@@ -857,7 +858,7 @@ class MainWindow (QMainWindow):
         self.ui.imageListWidget.itemSelectionChanged.disconnect(self.imageSelectedScanChanged)
         self.ui.statusBar.clearMessage()
         for i in self.selectedScanNums:
-            self.ui.scanListWidget.setItemSelected(self.ui.scanListWidget.item(i-1),True)
+            self.ui.scanListWidget.item(i-1).setSelected(True)#(self.ui.scanListWidget.item(i-1),True)
         self.mcaFileNames=[self.mcafhead+str(i)+self.mcaftail for i in self.selectedScanNums]
         self.mcaData={}
         self.mcaPar={}
@@ -1614,14 +1615,18 @@ class MainWindow (QMainWindow):
                 j=j+1
             
     def bgSelectAll(self):
-        self.disconnect(self.ui.backgroundListWidget, SIGNAL('itemSelectionChanged()'),self.bgSelectionChanged)
+        try:
+            self.ui.backgroundListWidget.itemSelectionChanged.disconnect(self.bgSelectionChanged)
+        except:
+            pass
+        #self.disconnect(self.ui.backgroundListWidget, SIGNAL('itemSelectionChanged()'),self.bgSelectionChanged)
         if self.ui.bgSelectAllCheckBox.checkState()!=0:
             for i in range(self.ui.backgroundListWidget.count()):
-                self.ui.backgroundListWidget.setItemSelected(self.ui.backgroundListWidget.item(i),True)
+                self.ui.backgroundListWidget.item(i).setSelected(True)#.setItemSelected(self.ui.backgroundListWidget.item(i),True)
         else:
             for i in range(self.ui.backgroundListWidget.count()):
-                self.ui.backgroundListWidget.setItemSelected(self.ui.backgroundListWidget.item(i),False)
-        self.connect(self.ui.backgroundListWidget, SIGNAL('itemSelectionChanged()'),self.bgSelectionChanged)
+                self.ui.backgroundListWidget.item(i).setSelected(False)#setItemSelected(self.ui.backgroundListWidget.item(i),False)
+        self.ui.backgroundListWidget.itemSelectionChanged.connect(self.bgSelectionChanged)
         self.bgSelectionChanged()
         
             
@@ -1672,7 +1677,7 @@ class MainWindow (QMainWindow):
         for item in self.ui.backgroundListWidget.selectedItems():
             self.ui.backgroundListWidget.takeItem(self.ui.backgroundListWidget.row(item))  
         # self.connect(self.ui.backgroundListWidget, SIGNAL('itemSelectionChanged()'),self.bgSelectionChanged)
-        self.ui.backgroundListWidget.itemSelectionChanged.conect(self.bgSelectionChanged)
+        self.ui.backgroundListWidget.itemSelectionChanged.connect(self.bgSelectionChanged)
         self.ui.bgSelectAllCheckBox.setCheckState(0)
         
     def update2dPlots(self):
@@ -2773,7 +2778,7 @@ class MainWindow (QMainWindow):
 #        print self.pilGIDXAxs_Q[0]
 #        print self.pilGIDYAxs_Q[:,0]
 #        print len(self.pilGIDData_Q), len(self.pilGIDData_Q[0]),  len(self.pilGIDXAxs_Q[0]), len(self.pilGIDYAxs_Q[:,0])
-        self.saveFileName=str(QFileDialog.getSaveFileName(caption='Save gioxs data', directory=self.directory))
+        self.saveFileName=str(QFileDialog.getSaveFileName(caption='Save gioxs data', directory=self.directory)[0])
         data2d=[]
         if str(self.ui.pilAxesComboBox.currentText())=='Q':
             fname_h=self.saveFileName+'_qxy_gid.txt'
@@ -4425,8 +4430,8 @@ class MainWindow (QMainWindow):
                 self.ui.plotFileListWidget.addItem('#'+str(i+1)+self.halftab+str(self.plotfiles[i].split('/')[-2])+'/'+str(self.plotfiles[i].split('/')[-1]))
 
     def addPlotFile(self): #add plot files into the listwidget and deselect all ref files in the listwidget
-        f=QFileDialog.getOpenFileNames(caption='Select Multiple Files to import', directory=self.directory, filter='Files (*.*)')
-        self.plotfiles=self.plotfiles+map(str, f)
+        f=QFileDialog.getOpenFileNames(caption='Select Multiple Files to import', directory=self.directory, filter='Files (*.*)')[0]
+        self.plotfiles=self.plotfiles+list(map(str, f))
         self.updatePlotFile()
         
     def updateSelectedPlotFile(self): #update the selected ref files in the listwidget
@@ -4454,7 +4459,7 @@ class MainWindow (QMainWindow):
             self.plotfiles.insert(max(0,i-1),self.plotfiles.pop(i))
         self.updatePlotFile()
         for i in rows:
-            self.ui.plotFileListWidget.setItemSelected(self.ui.plotFileListWidget.item(i-1),True)
+            self.ui.plotFileListWidget.item(i-1).setSelected(True)#setItemSelected(self.ui.plotFileListWidget.item(i-1),True)
         
     def downPlotFile(self):
         rows=self.selectedplotfiles_rows
@@ -4463,7 +4468,7 @@ class MainWindow (QMainWindow):
             self.plotfiles.insert(min(len(self.plotfiles),i+1),self.plotfiles.pop(i))   
         self.updatePlotFile()
         for i in rows:
-            self.ui.plotFileListWidget.setItemSelected(self.ui.plotFileListWidget.item(i+1),True)
+            self.ui.plotFileListWidget.item(i+1).setSelected(True)#setItemSelected(self.ui.plotFileListWidget.item(i+1),True)
         
     def updatePlotPlot(self): #update the plot in the plot plotwidget
         self.ui.PlotMplWidget.canvas.ax.clear()
@@ -4477,7 +4482,11 @@ class MainWindow (QMainWindow):
             style='o-'
         if  len(self.selectedplotfiles_rows)!=0: #plot plot files
             for i in range(len(self.selectedplotfiles_rows)):
-                data1=np.loadtxt(str(self.plotfiles[self.selectedplotfiles_rows[i]]), comments='#')
+                try:
+                    data1=np.loadtxt(str(self.plotfiles[self.selectedplotfiles_rows[i]]), comments='#')
+                except:
+                    QMessageBox.warning(self, 'File Error','The data file doesnot seems to have column data only. Please check',QMessageBox.Ok)
+                    return
                 data1=data1[np.argsort(data1[:,0])]
                 try:  #for pc
                     datalabel=str(self.plotfiles[self.selectedplotfiles_rows[i]].split('\\')[-1])
@@ -4544,7 +4553,7 @@ class MainWindow (QMainWindow):
         self.ui.PlotMplWidget.canvas.draw()
         
     def saveGraPlotData(self): #save the derivative data
-        self.saveFileName=str(QFileDialog.getSaveFileName(caption='Save Derivative Data',directory=self.directory))
+        self.saveFileName=str(QFileDialog.getSaveFileName(caption='Save Derivative Data',directory=self.directory)[0])
         fitfile=self.saveFileName+'_der.txt'
         np.savetxt(fitfile,self.gradata,fmt='%.4e\t%.4e')
     
@@ -4558,8 +4567,8 @@ class MainWindow (QMainWindow):
             self.uiplotscale.scaleTW.setRowCount(row) #set the table size; 4 column is fixed
             self.uiplotscale.show()
             self.uiplotscale.scaleLabel.setText('Plot Scale Setup: X=X*Factor+Offset')
-            self.uiplotscale.scaleTW.setHorizontalHeaderLabels(QStringList()<<"X Factor"<<"X Offset"<<"Y Factor"<<"Y Offset") #set the horizontal header
-            vlabel=QStringList() #set the vertical header 
+            self.uiplotscale.scaleTW.setHorizontalHeaderLabels(["X Factor","X Offset","Y Factor","Y Offset"]) #set the horizontal header
+            vlabel=[]#QStringList() #set the vertical header
             for i in range(row):
                 vlabel.append("#"+str(self.selectedplotfiles_rows[i]+1))
             self.uiplotscale.scaleTW.setVerticalHeaderLabels(vlabel)
@@ -4602,9 +4611,9 @@ class MainWindow (QMainWindow):
             bgrow=self.uipeakfit.bgSpinBox.value()+1
             self.uipeakfit.peakTW.setRowCount(peakrow) #set the row for peak parameter; 3 colomn is fixed
             self.uipeakfit.bgTW.setRowCount(bgrow) #set the row for bg parameters
-            self.uipeakfit.peakTW.setHorizontalHeaderLabels(QStringList()<<"Location"<<"Intensity"<<"Width")
-            peakvlabel=QStringList()
-            bgvlabel=QStringList()
+            self.uipeakfit.peakTW.setHorizontalHeaderLabels(["Location","Intensity","Width"])
+            peakvlabel=[]#QStringList()
+            bgvlabel=[]#QStringList()
             for i in range(peakrow):
                 peakvlabel.append("#"+str(i+1))
             self.uipeakfit.peakTW.setVerticalHeaderLabels(peakvlabel)
@@ -4667,7 +4676,7 @@ class MainWindow (QMainWindow):
                     self.uipeakfit.peakTW.setItem(row,j,QTableWidgetItem('1/1/1'.split('/')[j]))
                     self.peakparadic[3*row+j]=[1,False,None,None]
                 row=row+1
-        peakvlabel=QStringList()
+        peakvlabel=[]
         for i in range(row-diff):
                 peakvlabel.append("#"+str(i+1))
         self.uipeakfit.peakTW.setVerticalHeaderLabels(peakvlabel)
@@ -4687,7 +4696,7 @@ class MainWindow (QMainWindow):
                 self.uipeakfit.bgTW.setItem(row,0,QTableWidgetItem('0'))
                 self.peakbgparadic[row]=[0,False,None,None]
                 row=row+1
-        bgvlabel=QStringList()
+        bgvlabel=[]
         for i in range(row-diff):
                 bgvlabel.append("C"+str(i))
         self.uipeakfit.bgTW.setVerticalHeaderLabels(bgvlabel)
@@ -4936,13 +4945,13 @@ class MainWindow (QMainWindow):
         return (y-sum)/yerr
     
     def savePeakFit(self): # save fit data
-        self.saveFileName=str(QFileDialog.getSaveFileName(caption='Save Fit Data',directory=self.directory))
+        self.saveFileName=str(QFileDialog.getSaveFileName(caption='Save Fit Data',directory=self.directory))[0]
         fitfile=self.saveFileName+'_fit.txt'
        # print self.peakfitdata
         np.savetxt(fitfile,self.peakfitdata,fmt='%.4e\t%.4e')
 
     def savePeakPara(self): # save fit parameters
-        self.saveFileName=str(QFileDialog.getSaveFileName(caption='Save Fit Paremeters',directory=self.directory))
+        self.saveFileName=str(QFileDialog.getSaveFileName(caption='Save Fit Paremeters',directory=self.directory))[0]
         fid=open(self.saveFileName+'_par.txt','w')
         try:  #for pc
             fid.write('Data File:\t'+str(self.plotfiles[self.selectedplotfiles_rows[0]].split('\\')[-1])+'\n')
@@ -4973,7 +4982,7 @@ class MainWindow (QMainWindow):
                 self.ui.twodPlotFileListWidget.addItem('#'+str(i+1)+self.halftab+str(self.twodplotfiles[i].split('/')[-2])+'/'+str(self.twodplotfiles[i].split('/')[-1]))
 
     def add2dPlotFile(self): #add plot files into the listwidget and deselect all ref files in the listwidget
-        f=QFileDialog.getOpenFileNames(caption='Select Multiple Files to import', directory=self.directory, filter='Files (*.*)')
+        f=QFileDialog.getOpenFileNames(caption='Select Multiple Files to import', directory=self.directory, filter='Files (*.*)')[0]
         self.twodplotfiles=self.twodplotfiles+map(str, f)
         self.update2dPlotFile()
         
