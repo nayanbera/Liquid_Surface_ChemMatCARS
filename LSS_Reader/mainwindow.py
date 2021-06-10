@@ -118,7 +118,8 @@ class MainWindow (QMainWindow):
         self.ui.plotMoveUpPushButton.setIcon(QIcon('arrow_up.png'))
         self.ui.plotMoveDownPushButton.setIcon(QIcon('arrow_down.png'))
         self.init_signals()
-        self.openSpecFile(fname='C:/Users/bu/Desktop/LSXS_2020/sample_data/sample')
+        self.specFileName=None
+        #self.openSpecFile(fname='C:/Users/bu/Desktop/sample_data/sample')
         self.initValidator()
 
 
@@ -592,7 +593,11 @@ class MainWindow (QMainWindow):
         '''
         Reading spec File
         '''
-        self.specRead=specread(self.specFileName,startLineNum=self.startLineNum, endScanNum=self.endScanNum, beamline=self.beamline,data=self.specData,par=self.specPar)
+        if self.specFileName is not None:
+            self.specRead=specread(self.specFileName,startLineNum=self.startLineNum, endScanNum=self.endScanNum, beamline=self.beamline,data=self.specData,par=self.specPar)
+        else:
+            self.messageBox('Warning: There is no SPEC loaded!')
+            return
         self.clearAll()
         if self.startLineNum==0:
             inipil=0
