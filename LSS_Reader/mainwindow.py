@@ -1,7 +1,7 @@
 from PyQt5 import uic, Qt#, QtGui, QtCore
 # from PyQt5.QtCore import *
 # from PyQt5.QtGui import *
-from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QIcon, QIntValidator, QDoubleValidator
 from PyQt5.QtWidgets import QFileDialog, QProgressDialog, QMessageBox
 from PyQt5.Qt import *
 from spec_routines import specread
@@ -32,6 +32,40 @@ from functools import partial
 
 
 (Ui_MainWindow, QMainWindow) = uic.loadUiType('mainwindow.ui')
+
+class DoubleValidator(QDoubleValidator):
+    def __init__(self, parent, bottom=0):
+        QDoubleValidator.__init__(self, parent, bottom=bottom)
+        self.bottom=bottom
+
+    def validate(self, text, pos):
+        try:
+            if float(text)>= self.bottom:
+                state = QDoubleValidator.Acceptable
+            else:
+                state = QDoubleValidator.Invalid
+        except:
+            state = QDoubleValidator.Invalid
+        return state, text, pos
+
+
+class IntValidator(QIntValidator):
+    def __init__(self, parent, bottom=0):
+        QIntValidator.__init__(self, parent, bottom=bottom)
+        self.bottom=bottom
+
+    def validate(self, text, pos):
+        try:
+            if float(text)>= self.bottom:
+                state = QIntValidator.Acceptable
+            else:
+                state = QIntValidator.Invalid
+        except:
+            state = QIntValidator.Invalid
+        return state, text, pos
+
+
+
 
 class MainWindow (QMainWindow):
     """MainWindow inherits QMainWindow"""
@@ -84,13 +118,15 @@ class MainWindow (QMainWindow):
         self.ui.plotMoveUpPushButton.setIcon(QIcon('arrow_up.png'))
         self.ui.plotMoveDownPushButton.setIcon(QIcon('arrow_down.png'))
         self.init_signals()
+        self.openSpecFile(fname='C:/Users/bu/Desktop/LSXS_2020/sample_data/sample')
+        self.initValidator()
 
 
     def init_signals(self):
         # self.connect(self.ui.actionAbout, SIGNAL('triggered()'),self.showAbout)
         self.ui.actionAbout.triggered.connect(self.showAbout)
         # self.connect(self.ui.actionOpen_Spec_File, SIGNAL('triggered()'),self.openSpecFile)
-        self.ui.actionOpen_Spec_File.triggered.connect(self.openSpecFile)
+        self.ui.actionOpen_Spec_File.triggered.connect(lambda x:self.openSpecFile(fname=None))
         # self.connect(self.ui.speUpSpeFilePushButton, SIGNAL('clicked()'),self.readSpecFile)
         self.ui.speUpSpeFilePushButton.clicked.connect(self.readSpecFile)
         # self.connect(self.ui.actionAPS_15IDC, SIGNAL('triggered()'),self.selectAPS_15IDC)
@@ -413,7 +449,35 @@ class MainWindow (QMainWindow):
         self.ui.twodMinHorizontalSlider.sliderReleased.connect(self.update2dMinSlider)
      #    self.connect(self.ui.twodMaxHorizontalSlider, SIGNAL('sliderReleased()'), self.update2dMaxSlider)
         self.ui.twodMaxHorizontalSlider.sliderReleased.connect(self.update2dMaxSlider)
-        
+
+    def initValidator(self):
+        qdoublevalidator1 = DoubleValidator(self, bottom=1)
+        qdoublevalidator0 = DoubleValidator(self, bottom=0)
+        qintvaliator1 = IntValidator(self, bottom=1)
+        self.ui.AbsFacLineEdit.setValidator(qdoublevalidator1)
+        self.ui.bgFacLineEdit.setValidator(qdoublevalidator0)
+        self.ui.pilSDDistLineEdit.setValidator(qdoublevalidator1)
+        self.ui.pilBPCfacLineEdit.setValidator(qintvaliator1)
+        self.ui.pilMinLineEdit.setValidator(QDoubleValidator())
+        self.ui.pilMaxLineEdit.setValidator(QDoubleValidator())
+        self.ui.pilHSlitLineEdit.setValidator(qintvaliator1)
+        self.ui.refBGOffLineEdit.setValidator(qdoublevalidator0)
+        self.ui.refSeaWinLineEdit.setValidator(qdoublevalidator0)
+        self.ui.refBPCFacLineEdit.setValidator(qintvaliator1)
+        self.ui.refNormLineEdit.setValidator(qdoublevalidator0)
+        self.ui.refQcLineEdit.setValidator(qdoublevalidator0)
+        self.ui.refQoffLineEdit.setValidator(QDoubleValidator())
+        self.ui.refQLineEdit.setValidator(qdoublevalidator0)
+        self.ui.refRLineEdit.setValidator(QDoubleValidator())
+        self.ui.refRErrLineEdit.setValidator(qdoublevalidator0)
+        self.ui.cutOffsetLineEdit.setValidator(qdoublevalidator0)
+        self.ui.mcaCalibConLineEdit.setValidator(QDoubleValidator())
+        self.ui.mcaCalibLinLineEdit.setValidator(QDoubleValidator())
+        self.ui.mcaCalibQuaLineEdit.setValidator(QDoubleValidator())
+        self.ui.mcaOffsetLineEdit.setValidator(qdoublevalidator0)
+
+
+
     def selectAPS_15IDC(self):
         self.ui.statusBar.clearMessage()
         self.beamline='APS-15IDC'
@@ -433,10 +497,11 @@ class MainWindow (QMainWindow):
         updateTime=max([os.path.getmtime(fn) for fn in fname])
         self.messageBox('LSS-Reader\n Version: 17.01\nLast Update: '+time.strftime("%m/%d/%Y %I:%M:%S %p",time.localtime(updateTime))+'\nCopyright belongs to:\n\tWei Bu <weibu1977@gmail.com>\n\tMrinal K Bera <nayanbera@gmail.com>',title='About')
         
-    def openSpecFile(self):
+    def openSpecFile(self,fname=None):
         self.ui.statusBar.clearMessage()       
         self.ui.imagesLabel.setText('Detector:')
-        fname=QFileDialog.getOpenFileName(caption='Open Spec File')[0]
+        if fname is None:
+            fname=QFileDialog.getOpenFileName(caption='Open Spec File')[0]
         if fname!='':
             self.specFileName=fname
         else:
@@ -602,15 +667,19 @@ class MainWindow (QMainWindow):
         self.selectedScanNums=[int(str(items.text()).split()[1]) for items in self.selectedScans]
         self.ui.scansLineEdit.setText(str([item for item in self.selectedScanNums])[1:-1])
         if self.checkSameScans()==False or self.selectedScanNums==[]:
-            self.ui.statusBar.showMessage('Error:: The scans are not identical or some scans have no data!!')
+            self.messageBox('Error:: The scans are not identical or some scans have no data!!')
             # self.disconnect(self.ui.scanListWidget, SIGNAL('itemSelectionChanged()'),self.scanListChanged)
             self.ui.scanListWidget.itemSelectionChanged.disconnect(self.scanListChanged)
             for item in self.selectedScans:
-                item.setItemSelected(False)
+                item.setSelected(False)
             # self.connect(self.ui.scanListWidget, SIGNAL('itemSelectionChanged()'),self.scanListChanged)
-            self.ui.ScanListWidget.itemSelectionChanged.connect(self.scanListChanged)
+            self.ui.scanListWidget.itemSelectionChanged.connect(self.scanListChanged)
             self.ui.specPlotMplWidget.canvas.ax.clear()
             self.ui.specPlotMplWidget.canvas.draw()
+            self.ui.spXComboBox.currentIndexChanged.connect(self.updateSpecPlotData)
+            self.ui.spYComboBox.currentIndexChanged.connect(self.updateSpecPlotData)
+            self.ui.spY2ComboBox.currentIndexChanged.connect(self.updateSpecPlotData)
+            self.ui.spNComboBox.currentIndexChanged.connect(self.updateSpecPlotData)
         else:
             self.ui.spXComboBox.clear()
             self.ui.spYComboBox.clear()
@@ -665,32 +734,40 @@ class MainWindow (QMainWindow):
         self.ui.statusBar.showMessage('Done')
             
     def scanListInputChanged(self):
-        inputscannumbers=str(self.ui.scansLineEdit.text()).split(',')
         # self.disconnect(self.ui.scanListWidget, SIGNAL('itemSelectionChanged()'),self.scanListChanged)
         self.ui.scanListWidget.itemSelectionChanged.disconnect(self.scanListChanged)
-        self.selectedScans=self.ui.scanListWidget.selectedItems()
-        self.selectedScanNums=[int(str(items.text()).split()[1]) for items in self.selectedScans]
-        try:    
+        try:
+            self.selectedScans=self.ui.scanListWidget.selectedItems()
+            self.selectedScanNums=[int(str(items.text()).split()[1]) for items in self.selectedScans]
+            try:    # deselect the currently selected numbers
+                for i in self.selectedScanNums:
+                    self.ui.scanListWidget.item(i-1).setSelected(False)#.setItemSelected(self.ui.scanListWidget.item(i-1),False)
+                self.selectedScanNums=[]
+            except:
+                self.selectedScanNums=[]
+            inputscannumbers = str(self.ui.scansLineEdit.text()).split(',')
+            for item in inputscannumbers:
+                scan=list(map(int, item.split('-')))
+                if len(scan)>1:
+                    self.selectedScanNums=self.selectedScanNums+list(range(scan[0],scan[1]+1))
+                else:
+                    self.selectedScanNums=self.selectedScanNums+scan
+            #self.selectedScanNums=[item for item in self.selectedScanNums]
+            # self.connect(self.ui.scanListWidget, SIGNAL('itemSelectionChanged()'),self.scanListChanged)
+            snum=[int(item.split()[1]) for item in self.scanlines]
             for i in self.selectedScanNums:
-                self.ui.scanListWidget.item(i-1).setSelected(False)#.setItemSelected(self.ui.scanListWidget.item(i-1),False)
-            self.selectedScanNums=[]
+                # self.ui.scanListWidget.setItemSelected(self.ui.scanListWidget.item(snum.index(i)),True)
+                self.ui.scanListWidget.item(snum.index(i)).setSelected(True)
+            self.ui.scanListWidget.setCurrentRow(self.selectedScanNums[-1]-1)
+            self.ui.scanListWidget.itemSelectionChanged.connect(self.scanListChanged)
+            self.scanListChanged()
+            self.ui.statusBar.showMessage('Done')
         except:
-            self.selectedScanNums=[]
-        for item in inputscannumbers:
-            scan=list(map(int, item.split('-')))
-            if len(scan)>1:
-                self.selectedScanNums=self.selectedScanNums+list(range(scan[0],scan[1]+1))
-            else:
-                self.selectedScanNums=self.selectedScanNums+scan
-        #self.selectedScanNums=[item for item in self.selectedScanNums]
-        # self.connect(self.ui.scanListWidget, SIGNAL('itemSelectionChanged()'),self.scanListChanged)
-        self.ui.scanListWidget.itemSelectionChanged.connect(self.scanListChanged)
-        snum=[int(item.split()[1]) for item in self.scanlines]
-        for i in self.selectedScanNums:
-            # self.ui.scanListWidget.setItemSelected(self.ui.scanListWidget.item(snum.index(i)),True)
-            self.ui.scanListWidget.item(snum.index(i)).setSelected(True)
-        self.ui.scanListWidget.setCurrentRow(self.selectedScanNums[-1]-1)
-        self.ui.statusBar.showMessage('Done')
+            lastnum=int(self.scanlines[-1].split()[1])
+            self.messageBox('Please enter the scan number in the range of [1, '+str(lastnum)+']\n'+'and in the format such as "2-5,7".')
+            self.ui.scanListWidget.itemSelectionChanged.connect(self.scanListChanged)
+            return
+
         
 
     def updateSpecPlotData(self):
@@ -750,7 +827,7 @@ class MainWindow (QMainWindow):
         self.ui.statusBar.showMessage('Done')
         
     def specSaveData(self):
-        self.saveFileName=str(QFileDialog.getSaveFileName(caption='Save SPEC scans', directory=self.directory))
+        self.saveFileName=QFileDialog.getSaveFileName(caption='Save SPEC scans', directory=self.directory)[0]
         for i in self.selectedScanNums:
             x=self.specData[i][str(self.ui.spXComboBox.currentText())]
             y=self.specData[i][str(self.ui.spYComboBox.currentText())]
@@ -958,9 +1035,9 @@ class MainWindow (QMainWindow):
         self.ui.mcaPlotMplWidget.canvas.draw()
             
     def saveMcaData(self):
-        self.saveMcaFileName=str(QFileDialog.getSaveFileName(caption='Save Mca data',directory=self.directory))
+        self.saveMcaFileName=QFileDialog.getSaveFileName(caption='Save Mca data',directory=self.directory)[0]
         for i in self.selectedMcaScanNums:
-            self.fmcaName=self.saveMcaFileName+str(self.ui.imageListWidget.item(i).text().split('\t')[0])+'_'+'%.4f'%self.mcaPar[i]['Q'][2]+'_mca.txt'
+            self.fmcaName=self.saveMcaFileName+str(self.ui.imageListWidget.item(i).text().split('\t')[0])+'_'+str(self.ui.imageListWidget.item(i).text().split('\t')[1])+'_''%.4f'%self.mcaPar[i]['Q'][2]+'_mca.txt'
             np.savetxt(self.fmcaName,self.nomMcaData[i],fmt='%.4f\t%.4e\t%.4e')
             
     def mcaPeakFit(self):  #fit the mca spectrum
@@ -986,33 +1063,37 @@ class MainWindow (QMainWindow):
     def mcaSumAll(self):  #sum all selected spectrum with given range
         self.mcaIntData=[]
         self.ui.mcaDataListWidget.clear()
-        for i in range(len(self.selectedMcaScanNums)):
-            data=self.nomMcaData[self.selectedMcaScanNums[i]]
-            ini=max(float(str(self.ui.mcaRanLineEdit.text()).split(':')[0]),data[0][0])
-            fin=min(float(str(self.ui.mcaRanLineEdit.text()).split(':')[1]),data[-1][0])     
-            dataran=np.where((np.logical_and(data[:,0]<=fin,data[:,0]>=ini)))
-            newdata=data[dataran[0][0]:dataran[0][-1]+1]
-            frame=self.selectedMcaScanNums[i]+1
-            qz=self.mcaPar[self.selectedMcaScanNums[i]]['Q'][2]
-            try:
-                energy=self.mcaPar[self.selectedMcaScanNums[i]]['Energy']
-            except:
-                energy=10.0
-            inten=np.sum(newdata[:,1])
-            error=np.sqrt(np.sum(newdata[:,2]**2))
-            #print newdata, inten, error
-            self.mcaIntData.append([frame, qz, energy, inten, error])
-            if self.ui.mcaXAxisComboBox.currentIndex()==0:
-                string=str(int(frame))+'\t'+'%.4e'%inten+'\t'+'%.4e'%error 
-            elif self.ui.mcaXAxisComboBox.currentIndex()==1:
-                string='%.4f'%qz+'\t'+'%.4e'%inten+'\t'+'%.4e'%error
-            else:
-                string='%.4f'%energy+'\t'+'%.4e'%inten+'\t'+'%.4e'%error
-            self.ui.mcaDataListWidget.addItem(string)
-            self.updateMcaIntPlot()
-            self.command='Flu Sum, scans=['+str([item for item in np.sort(self.selectedScanNums)])[1:-1]+'], energy range=['+str(ini)+':'+str(fin)+']' 
-            self.ui.commandLineEdit.setText(self.command)
-    
+        try:
+            for i in range(len(self.selectedMcaScanNums)):
+                data=self.nomMcaData[self.selectedMcaScanNums[i]]
+                ini=max(float(str(self.ui.mcaRanLineEdit.text()).split(':')[0]),data[0][0])
+                fin=min(float(str(self.ui.mcaRanLineEdit.text()).split(':')[1]),data[-1][0])
+                dataran=np.where((np.logical_and(data[:,0]<=fin,data[:,0]>=ini)))
+                newdata=data[dataran[0][0]:dataran[0][-1]+1]
+                frame=self.selectedMcaScanNums[i]+1
+                qz=self.mcaPar[self.selectedMcaScanNums[i]]['Q'][2]
+                try:
+                    energy=self.mcaPar[self.selectedMcaScanNums[i]]['Energy']
+                except:
+                    energy=10.0
+                inten=np.sum(newdata[:,1])
+                error=np.sqrt(np.sum(newdata[:,2]**2))
+                #print newdata, inten, error
+                self.mcaIntData.append([frame, qz, energy, inten, error])
+                if self.ui.mcaXAxisComboBox.currentIndex()==0:
+                    string=str(int(frame))+'\t'+'%.4e'%inten+'\t'+'%.4e'%error
+                elif self.ui.mcaXAxisComboBox.currentIndex()==1:
+                    string='%.4f'%qz+'\t'+'%.4e'%inten+'\t'+'%.4e'%error
+                else:
+                    string='%.4f'%energy+'\t'+'%.4e'%inten+'\t'+'%.4e'%error
+                self.ui.mcaDataListWidget.addItem(string)
+                self.updateMcaIntPlot()
+                self.command='Flu Sum, scans=['+str([item for item in np.sort(self.selectedScanNums)])[1:-1]+'], energy range=['+str(ini)+':'+str(fin)+']'
+                self.ui.commandLineEdit.setText(self.command)
+        except:
+            self.messageBox('Please input the proper sum range in the format of "min:max"!')
+            self.ui.mcaRanLineEdit.setText('1:1000')
+            return
     
     def mcaAcceptPeak(self,num=0): #accecpt the fitting result, save the data, and update the mca integral plot 
         frame=self.selectedMcaScanNums[num]+1
@@ -1131,7 +1212,7 @@ class MainWindow (QMainWindow):
         
     def mcaSaveIntData(self):
         try:
-            self.saveFileName=str(QFileDialog.getSaveFileName(caption='Save Fluorescence Integral Data',directory=self.directory))
+            self.saveFileName=QFileDialog.getSaveFileName(caption='Save Fluorescence Integral Data',directory=self.directory)[0]
             fid=open(self.saveFileName+'_flu.txt','w')
             try:
                 fid.write('#'+str(self.command)+'\n')
@@ -1149,8 +1230,8 @@ class MainWindow (QMainWindow):
             print ('no mca integral data to save.')
                 
     def addMcaFiles(self): #add mca files with integral intensity in the list
-        f=QFileDialog.getOpenFileNames(caption='Select Multiple Files to import', directory=self.directory)
-        self.mcafiles=self.mcafiles+map(str, f)
+        f=QFileDialog.getOpenFileNames(caption='Select Multiple Files to import', directory=self.directory)[0]
+        self.mcafiles=self.mcafiles+list(map(str, f))
         self.mcafnames=[]
         self.ui.mcaFileListWidget.clear()
         for i in range(len(self.mcafiles)):
@@ -1200,7 +1281,7 @@ class MainWindow (QMainWindow):
             # self.disconnect(self.ui.imageListWidget,SIGNAL('itemSelectionChanged()'),self.imageSelectedScanChanged)
             self.ui.imageListWidget.itemSelectionChanged.disconnect(self.imageSelectedScanChanged)
             for items in self.selectedCcdFrames:
-                self.ui.imageListWidget.setItemSelected(items,False)
+                items.setSelected(False)
             # self.connect(self.ui.imageListWidget,SIGNAL('itemSelectionChanged()'),self.imageSelectedScanChanged)
             self.ui.imageListWidget.itemSelectionChanged.connect(self.imageSelectedScanChanged)
             self.ui.imageSelectAllCheckBox.setCheckState(0)
@@ -1208,7 +1289,7 @@ class MainWindow (QMainWindow):
             # self.disconnect(self.ui.imageListWidget,SIGNAL('itemSelectionChanged()'),self.imageSelectedScanChanged)
             self.ui.imageListWidget.itemSelectionChanged.disconnect(self.imageSelectedScanChanged)
             for items in self.selectedPilFrames:
-                self.ui.imageListWidget.setItemSelected(items,False)
+                items.setSelected(False)
             # self.connect(self.ui.imageListWidget,SIGNAL('itemSelectionChanged()'),self.imageSelectedScanChanged)
             self.ui.imageListWidget.itemSelectionChanged.connect(self.imageSelectedScanChanged)
             self.ui.imageSelectAllCheckBox.setCheckState(0)
@@ -1950,16 +2031,20 @@ class MainWindow (QMainWindow):
             self.showPilGISAXS()
             
     def pilMovieShow(self):
-        self.disconnect(self.ui.pilAxesComboBox, SIGNAL('currentIndexChanged(int)'), self.update2dPlots)
+        #self.disconnect(self.ui.pilAxesComboBox, SIGNAL('currentIndexChanged(int)'), self.update2dPlots)
+        self.ui.pilAxesComboBox.currentIndexChanged.disconnect(self.update2dPlots)
         self.ui.pilAxesComboBox.setCurrentIndex(2)
-        self.connect(self.ui.pilAxesComboBox, SIGNAL('currentIndexChanged(int)'), self.update2dPlots)
+        #self.connect(self.ui.pilAxesComboBox, SIGNAL('currentIndexChanged(int)'), self.update2dPlots)
+        self.ui.pilAxesComboBox.currentIndexChanged.connect(self.update2dPlots)
         self.pilmovieindex=1
-        self.disconnect(self.ui.pilPinholeCheckBox,SIGNAL('stateChanged(int)'),self.update2dPlots)
+        #self.disconnect(self.ui.pilPinholeCheckBox,SIGNAL('stateChanged(int)'),self.update2dPlots)
+        self.ui.pilPinholeCheckBox.stateChanged.disconnect(self.update2dPlots)
         self.ui.pilPinholeCheckBox.setCheckState(2)
         self.updatePilPlotData()
         self.pilmovieindex=0
         self.ui.pilPinholeCheckBox.setCheckState(0)
-        self.connect(self.ui.pilPinholeCheckBox,SIGNAL('stateChanged(int)'),self.update2dPlots)
+        #self.connect(self.ui.pilPinholeCheckBox,SIGNAL('stateChanged(int)'),self.update2dPlots)
+        self.ui.pilPinholeCheckBox.stateChanged.connect(self.update2dPlots)
         
     def gioxsDisplay(self):
         if len(self.selectedBgFrameNums)==0 or len(self.selectedPilFramesNums)==0:
@@ -1969,16 +2054,19 @@ class MainWindow (QMainWindow):
             self.uipdgioxs=uic.loadUi('pdgioxs.ui', Dialog)
             self.uipdgioxs.frameLineEdit.setText(str(len(self.selectedPilFramesNums)))
             self.uipdgioxs.show()
-            self.connect(self.uipdgioxs.closePushButton, SIGNAL('clicked()'), self.pilGioxsClose)
-            self.connect(self.uipdgioxs.runPushButton, SIGNAL('clicked()'), self.pilGioxsRun)
-            self.connect(self.uipdgioxs.savePushButton, SIGNAL('clicked()'), self.pilGioxsSave)
+            # self.connect(self.uipdgioxs.closePushButton, SIGNAL('clicked()'), self.pilGioxsClose)
+            self.uipdgioxs.closePushButton.clicked.connect(self.pilGioxsClose)
+            # self.connect(self.uipdgioxs.runPushButton, SIGNAL('clicked()'), self.pilGioxsRun)
+            self.uipdgioxs.runPushButton.clicked.connect(self.pilGioxsRun)
+            # self.connect(self.uipdgioxs.savePushButton, SIGNAL('clicked()'), self.pilGioxsSave)
+            self.uipdgioxs.savePushButton.clicked.connect(self.pilGioxsSave)
             self.pilGioxsRun()
             
     def pilGioxsClose(self):
         self.uipdgioxs.close()
         
     def pilGioxsSave(self):
-        self.saveFileName=str(QFileDialog.getSaveFileName(caption='Save gioxs data',directory=self.directory))
+        self.saveFileName=QFileDialog.getSaveFileName(caption='Save gioxs data',directory=self.directory)[0]
         for i in range(len(self.gioxsdata)):
             fname=self.saveFileName+self.gioxsname[i]
             np.savetxt(fname,self.gioxsdata[i],fmt='%.4f\t%.4e\t%.4e')
@@ -2093,10 +2181,13 @@ class MainWindow (QMainWindow):
             Dialog=QDialog(self)                
             self.uipdburn=uic.loadUi('pdburn.ui', Dialog)
             self.uipdburn.show()
-            self.connect(self.uipdburn.gidComboBox, SIGNAL('activated(int)'),self.pilGidBurn)  #do GID burn analysis
-            #self.connect(self.uipdburn.rangeLineEdit, SIGNAL('returnPressed()'),self.pilGidBurn)
-            self.connect(self.uipdburn.refPushButton, SIGNAL('clicked()'),self.pilRefBurn) #do REF burn analysis
-            self.connect(self.uipdburn.closePushButton,SIGNAL('clicked()'),self.pilBurnClose) #close the window 
+            # self.connect(self.uipdburn.gidComboBox, SIGNAL('activated(int)'),self.pilGidBurn)  #do GID burn analysis
+            self.uipdburn.gidComboBox.activated.connect(self.pilGidBurn)
+            ##self.connect(self.uipdburn.rangeLineEdit, SIGNAL('returnPressed()'),self.pilGidBurn)
+            # self.connect(self.uipdburn.refPushButton, SIGNAL('clicked()'),self.pilRefBurn) #do REF burn analysis
+            self.uipdburn.refPushButton.clicked.connect(self.pilRefBurn)
+            # self.connect(self.uipdburn.closePushButton,SIGNAL('clicked()'),self.pilBurnClose) #close the window
+            self.uipdburn.closePushButton.clicked.connect(self.pilBurnClose)
         
     def pilBurnClose(self):
         self.uipdburn.close()
@@ -2232,9 +2323,11 @@ class MainWindow (QMainWindow):
                 self.sumData = self.sumData / float(len(self.selectedPilFramesNums))  # average the intensity
                 self.sumErrData = np.sqrt(self.sumErrData) / float(len(self.selectedPilFramesNums))  # average the error bar
             if str(self.ui.pilAxesComboBox.currentText())!='Q':
-                self.disconnect(self.ui.pilAxesComboBox, SIGNAL('currentIndexChanged(int)'), self.update2dPlots)
+                # self.disconnect(self.ui.pilAxesComboBox, SIGNAL('currentIndexChanged(int)'), self.update2dPlots)
+                self.ui.pilAxesComboBox.currentIndexChanged.disconnect(self.update2dPlots)
                 self.ui.pilAxesComboBox.setCurrentIndex(2)
-                self.connect(self.ui.pilAxesComboBox, SIGNAL('currentIndexChanged(int)'), self.update2dPlots)
+                # self.connect(self.ui.pilAxesComboBox, SIGNAL('currentIndexChanged(int)'), self.update2dPlots)
+                self.ui.pilAxesComboBox.currentIndexChanged.connect(self.update2dPlots)
             if self.ui.pilSpecCheckBox.checkState() != 0:  # if this CB is checked, use spec value
                 if self.checkSameArrays(self.pilSelectedX) == False or self.checkSameArrays(self.pilSelectedY) == False or self.checkSameArrays(self.pilSelected_Dist) == False:
                     self.messageBox('Warning:: The selected frames have different Pilatus parameters; the parameters of the first frames are used here!!')
@@ -2269,8 +2362,8 @@ class MainWindow (QMainWindow):
             pilX_deg, pilY_deg = np.meshgrid(pilX_deg, pilY_deg)  # mesh x-y corrdinates
             self.pilXbin = 2.0 * np.pi / self.wavelength[0] * np.sqrt(np.cos(self.truealpha[0]) ** 2 + np.cos(pilY_deg) ** 2 - 2 * np.cos(self.truealpha[0]) * np.cos(pilY_deg) * np.cos(pilX_deg))
             self.pilYbin = 2.0 * np.pi / self.wavelength[0] * (np.sin(self.truealpha[0]) + np.sin(pilY_deg))
-            qxyrange = np.linspace(np.min(self.pilXbin), np.max(self.pilXbin), len(self.pilXbin[0]) * (np.max(self.pilXbin) - np.min(self.pilXbin)) / (
-                                           self.pilXbin[0][-1] - self.pilXbin[0][0]))
+            qxyrange = np.linspace(np.min(self.pilXbin), np.max(self.pilXbin), int(len(self.pilXbin[0]) * (np.max(self.pilXbin) - np.min(self.pilXbin)) / (
+                                           self.pilXbin[0][-1] - self.pilXbin[0][0])))
             qxy, qz = np.meshgrid(qxyrange, self.pilYbin[:, 0])
             if len(self.selectedPilFramesNums)==1:
                  index = self.selectedPilFramesNums[0]
@@ -2298,7 +2391,7 @@ class MainWindow (QMainWindow):
 
     def savePilGISAXS(self):
         try:
-            self.saveFileName = str(QFileDialog.getSaveFileName(caption='Save gioxs data', directory=self.directory))
+            self.saveFileName = QFileDialog.getSaveFileName(caption='Save gioxs data', directory=self.directory)[0]
             data2d = []
             fname_2d = self.saveFileName + '_gisaxs.txt'
             for i in range(len(self.pilDataBin)):
@@ -2324,8 +2417,10 @@ class MainWindow (QMainWindow):
         Dialog=QDialog(self)                
         self.uipdformfac=uic.loadUi('pdformfac.ui', Dialog)
         self.uipdformfac.show()
-        self.connect(self.uipdformfac.updatePushButton, SIGNAL('clicked()'),self.updateFormFactor)  #update gid plot with formfactor
-        self.connect(self.uipdformfac.okPushButton, SIGNAL('clicked()'),self.presetFormFactor) #preset formfactor
+        # self.connect(self.uipdformfac.updatePushButton, SIGNAL('clicked()'),self.updateFormFactor)  #update gid plot with formfactor
+        self.uipdformfac.updatePushButton.clicked.connect(self.updateFormFactor)
+        # self.connect(self.uipdformfac.okPushButton, SIGNAL('clicked()'),self.presetFormFactor) #preset formfactor
+        self.uipdformfac.okPushButton.clicked.connect(self.presetFormFactor)
         
     def presetFormFactor(self):
         if self.uipdformfac.sphCheckBox.checkState()!=0 and self.uipdformfac.ellCheckBox.checkState()!=0:
@@ -2653,7 +2748,7 @@ class MainWindow (QMainWindow):
             else:
                # print  self.pilGIDXAxs_Q[0][0], self.pilGIDXAxs_Q[0][-1], self.pilGIDXAxs_Q[-1][0], self.pilGIDXAxs_Q[-1][-1] 
                 #print np.min(self.pilGIDXAxs_Q), np.max(self.pilGIDXAxs_Q)
-                qxyrange=np.linspace(np.min(self.pilGIDXAxs_Q), np.max(self.pilGIDXAxs_Q),len(self.pilGIDXAxs_Q[0])*(np.max(self.pilGIDXAxs_Q)-np.min(self.pilGIDXAxs_Q))/(self.pilGIDXAxs_Q[0][-1]-self.pilGIDXAxs_Q[0][0]))
+                qxyrange=np.linspace(np.min(self.pilGIDXAxs_Q), np.max(self.pilGIDXAxs_Q),int(len(self.pilGIDXAxs_Q[0])*(np.max(self.pilGIDXAxs_Q)-np.min(self.pilGIDXAxs_Q))/(self.pilGIDXAxs_Q[0][-1]-self.pilGIDXAxs_Q[0][0])))
                # print len(self.pilGIDXAxs_Q[0]),  len(self.pilGIDXAxs_Q[0])*(np.max(self.pilGIDXAxs_Q)-np.min(self.pilGIDXAxs_Q))/(self.pilGIDXAxs_Q[0][-1]-self.pilGIDXAxs_Q[0][0])
                # print qxyrange
                 #qxyrange=np.where(np.logical_and(self.pilGIDXAxs_Q[0]<self.pilGIDXAxs_Q[-1][-1],self.pilGIDXAxs_Q[0]>self.pilGIDXAxs_Q[-1][0]))  #find the qxy range in the biggest rectangular grids. (relax mode)
@@ -2966,9 +3061,9 @@ class MainWindow (QMainWindow):
         return datanew
     
     
-    def sortedScans(self,data):  #reture the order of scans from low dth to higt dth, qlso works for sorting qz in the ref 
+    def sortedScans(self,data):  #reture the order of scans from low dth to higt dth, also works for sorting qz in the ref
         if len(data)<2:
-            return data.keys()
+            return list(data.keys())
         else:
             x={}
             sorted_keys=[]
@@ -3628,7 +3723,7 @@ class MainWindow (QMainWindow):
 
     def pilRefSSDrop(self):
         dropnumbers=str(self.uirefpatchsamescan.dropLineEdit.text()).split(',')
-        dropnumbers=map(int,dropnumbers)
+        dropnumbers=list(map(int,dropnumbers))
         for i in range(len(dropnumbers)):
             try:
                 self.scanqzframe.pop(dropnumbers[i])
@@ -3721,20 +3816,25 @@ class MainWindow (QMainWindow):
                 self.uirefpatch.plotWidget.canvas.draw()
     
     def pilRefPatchDrop(self):
-        dropnumbers=str(self.uirefpatch.dropLineEdit.text()).split(',')
-        dropnumbers=map(int,dropnumbers)
-        dropnumbers.sort(key=abs,reverse=True) #sort the dropnumbers to make sure starting dropping the points away from the end.  
-        for i in range(len(dropnumbers)):
-            if dropnumbers[i]>=0:
-                self.scanqzframe[self.pilrefsort[self.pilreforder+1]]=np.delete(self.scanqzframe[self.pilrefsort[self.pilreforder+1]],dropnumbers[i],axis=0)
-            else:
-                if self.pilreforder==0:
-                    self.scanqzframe[self.pilrefsort[0]]=np.delete(self.scanqzframe[self.pilrefsort[0]],dropnumbers[i],axis=0)
+        try:
+            dropnumbers=str(self.uirefpatch.dropLineEdit.text()).split(',')
+            dropnumbers=list(map(int,dropnumbers))
+            dropnumbers.sort(key=abs,reverse=True) #sort the dropnumbers to make sure starting dropping the points away from the end.
+            for i in range(len(dropnumbers)):
+                if dropnumbers[i]>=0:
+                    self.scanqzframe[self.pilrefsort[self.pilreforder+1]]=np.delete(self.scanqzframe[self.pilrefsort[self.pilreforder+1]],dropnumbers[i],axis=0)
                 else:
-                    self.pilrefdata=np.delete(self.pilrefdata,dropnumbers[i],axis=0)
-        
-      #  print self.pilrefdata
-        self.pilRefPatchPlot()
+                    if self.pilreforder==0:
+                        self.scanqzframe[self.pilrefsort[0]]=np.delete(self.scanqzframe[self.pilrefsort[0]],dropnumbers[i],axis=0)
+                    else:
+                        self.pilrefdata=np.delete(self.pilrefdata,dropnumbers[i],axis=0)
+
+          #  print self.pilrefdata
+            self.pilRefPatchPlot()
+        except:
+            self.messageBox('Please input the number of points which you like to drop in the format of "-1, 0 "!')
+            return
+
         
         
     def pilRefPatchNext(self):
@@ -3811,8 +3911,8 @@ class MainWindow (QMainWindow):
     
     
     def addRefFiles(self):
-        f=QFileDialog.getOpenFileNames(caption='Select Multiple Files to import', directory=self.directory, filter='Ref Files (*_ref.txt;*.ref*;*_rrf.txt)')
-        self.reffiles=self.reffiles+map(str, f)
+        f=QFileDialog.getOpenFileNames(caption='Select Multiple Files to import', directory=self.directory, filter='Ref Files (*_ref.txt;*.ref*;*_rrf.txt)')[0]
+        self.reffiles=self.reffiles+list(map(str, f))
         self.reffnames=[]
         self.ui.refRefFileListWidget.clear()
         for i in range(len(self.reffiles)):
@@ -3933,7 +4033,7 @@ class MainWindow (QMainWindow):
         self.saveTemData()
         
     def saveRefData(self):
-        self.saveFileName=str(QFileDialog.getSaveFileName(caption='Save Reflectivity',directory=self.directory))
+        self.saveFileName=QFileDialog.getSaveFileName(caption='Save Reflectivity',directory=self.directory)[0]
         if self.det=='Bruker':
             fid=open(self.saveFileName+'_ref.txt','w')
             for i in range(len(self.refData)):
@@ -4059,8 +4159,13 @@ class MainWindow (QMainWindow):
         self.selCutPilErrorData={}
         self.cutData={}
         self.cutLabel={}
-        ini=float(str(self.ui.pilIntRangeLineEdit.text()).split(':')[0])
-        fin=float(str(self.ui.pilIntRangeLineEdit.text()).split(':')[1])
+        try:
+            ini=float(str(self.ui.pilIntRangeLineEdit.text()).split(':')[0])
+            fin=float(str(self.ui.pilIntRangeLineEdit.text()).split(':')[1])
+        except:
+            self.messageBox('Please enter the range in the format "min:max"')
+            self.ui.pilIntRangeLineEdit.setText('1:1024')
+            return
         for i in self.selectedPilFramesNums:
             self.selCutPilData[i]=self.pilData[i]#np.where(self.ccdData[i]<0,0,self.ccdData[i])#*self.absfac**self.ccd_AbsNum[i]/self.ccdMonc[i]
             self.selCutPilErrorData[i]=self.pilErrorData[i]#np.sqrt(self.ccdErrorData[i]**2/self.ccdMonc[i]**2+self.ccdData[i]**2/self.ccdMonc[i]**3)*self.absfac**self.ccd_AbsNum[i]  
@@ -4072,8 +4177,8 @@ class MainWindow (QMainWindow):
                 self.selCutPilErrorData[-1]=self.selCutPilErrorData[-1]+self.selCutPilErrorData[i]**2
             self.selCutPilData[-1]=self.selCutPilData[-1]/len(self.selectedPilFramesNums)
             self.selCutPilErrorData[-1]=np.sqrt(self.selCutPilErrorData[-1])/len(self.selectedPilFramesNums)
-            if self.ui.pilCutDirComboBox.currentText()=='H Cut':  #vertical integration; provide PixY 
-                self.pilatus.plotVint(self.selCutPilData[-1],self.selCutPilErrorData[-1],absfac=self.absfac,absnum=self.pilSelected_AbsNum[0],cen=[self.xcenter[0],self.ycenter[0]],  hroi=None,  vroi=[int(ini)-1, int(fin)-1], ax_type=str(self.ui.pilAxesComboBox.currentText()), wavelength=self.wavelength[0],s2d_dist=self.distance[0],sh=self.pilSelected_Sh[0],alpha=self.alpha[0], dth=self.dth[0],mon=None)
+            if self.ui.pilCutDirComboBox.currentText()=='H Cut':  #vertical integration; provide PixY
+                self.pilatus.plotVint(self.selCutPilData[-1],self.selCutPilErrorData[-1],absfac=self.absfac,absnum=self.pilSelected_AbsNum[0],cen=[self.xcenter[0],self.ycenter[0]],  hroi=None,  vroi=[max(int(ini),0), min(int(fin)+1,self.pilatus.NROWS)], ax_type=str(self.ui.pilAxesComboBox.currentText()), wavelength=self.wavelength[0],s2d_dist=self.distance[0],sh=self.pilSelected_Sh[0],alpha=self.alpha[0], dth=self.dth[0],mon=None)
                 self.cutData[-1]=self.pilatus.vintData
             elif self.ui.pilCutDirComboBox.currentText()=='Qz Cut':
                 beta=np.arcsin(2*np.sin(self.alpha[0])-np.sin(self.truealpha[0]))  # get the beta value 
@@ -4081,22 +4186,22 @@ class MainWindow (QMainWindow):
                 fin=int(np.tan(np.arcsin(fin*self.wavelength[0]/2.0/np.pi-np.sin(self.alpha[0]))-beta)*self.pilSelected_Dist[0]/0.172)+self.ycenter[0]
                 #ini=-int((self.distance[0]*np.arcsin(ini*self.wavelength[0]/2.0/np.pi-np.sin(self.alpha[0]))+self.pilSelected_Sh[0])/0.172)+self.ycenter[0]
                 #fin=-int((self.distance[0]*np.arcsin(fin*self.wavelength[0]/2.0/np.pi-np.sin(self.alpha[0]))+self.pilSelected_Sh[0])/0.172)+self.ycenter[0]  
-                self.pilatus.plotVint(self.selCutPilData[-1],self.selCutPilErrorData[-1],absfac=self.absfac,absnum=self.pilSelected_AbsNum[0], cen=[self.xcenter[0],self.ycenter[0]],  hroi=None,  vroi=[int(ini)-1, int(fin)-1], ax_type='Q', wavelength=self.wavelength[0],s2d_dist=self.distance[0],sh=self.pilSelected_Sh[0],alpha=self.alpha[0], dth=self.dth[0], mon=None)
+                self.pilatus.plotVint(self.selCutPilData[-1],self.selCutPilErrorData[-1],absfac=self.absfac,absnum=self.pilSelected_AbsNum[0], cen=[self.xcenter[0],self.ycenter[0]],  hroi=None,  vroi=[max(int(ini),0), min(int(fin)+1,self.pilatus.NROWS)], ax_type='Q', wavelength=self.wavelength[0],s2d_dist=self.distance[0],sh=self.pilSelected_Sh[0],alpha=self.alpha[0], dth=self.dth[0], mon=None)
                 self.cutData[-1]=self.pilatus.vintData
             elif self.ui.pilCutDirComboBox.currentText()=='V Cut':
-                self.pilatus.plotHint(self.selCutPilData[-1],self.selCutPilErrorData[-1],absfac=self.absfac,absnum=self.pilSelected_AbsNum[0],cen=[self.xcenter[0],self.ycenter[0]],  hroi=[int(ini)-1, int(fin)-1],  vroi=None, ax_type=str(self.ui.pilAxesComboBox.currentText()), wavelength=self.wavelength[0],s2d_dist=self.distance[0],sh=self.pilSelected_Sh[0],alpha=self.alpha[0], truealpha=self.truealpha[0], mon=None)
+                self.pilatus.plotHint(self.selCutPilData[-1],self.selCutPilErrorData[-1],absfac=self.absfac,absnum=self.pilSelected_AbsNum[0],cen=[self.xcenter[0],self.ycenter[0]],  hroi=[max(int(ini),0), min(int(fin)+1,self.pilatus.NCOLS)],  vroi=None, ax_type=str(self.ui.pilAxesComboBox.currentText()), wavelength=self.wavelength[0],s2d_dist=self.distance[0],sh=self.pilSelected_Sh[0],alpha=self.alpha[0], truealpha=self.truealpha[0], mon=None)
                 self.cutData[-1]=self.pilatus.hintData
             else:
                 ini=int((2.0*np.arcsin(ini*self.wavelength[0]/4.0/np.pi)-self.dth[0])*self.distance[0]/0.172)+self.xcenter[0]
                 fin=int((2.0*np.arcsin(fin*self.wavelength[0]/4.0/np.pi)-self.dth[0])*self.distance[0]/0.172)+self.xcenter[0]
-                self.pilatus.plotHint(self.selCutPilData[-1],self.selCutPilErrorData[-1],absfac=self.absfac,absnum=self.pilSelected_AbsNum[0],cen=[self.xcenter[0],self.ycenter[0]],  hroi=[int(ini)-1, int(fin)-1],  vroi=None, ax_type='Q', wavelength=self.wavelength[0],s2d_dist=self.pilSelected_Dist[0],sh=self.pilSelected_Sh[0],alpha=self.alpha[0],truealpha=self.truealpha[0], mon=None)
+                self.pilatus.plotHint(self.selCutPilData[-1],self.selCutPilErrorData[-1],absfac=self.absfac,absnum=self.pilSelected_AbsNum[0],cen=[self.xcenter[0],self.ycenter[0]],  hroi=[max(int(ini),0), min(int(fin)+1,self.pilatus.NCOLS)],  vroi=None, ax_type='Q', wavelength=self.wavelength[0],s2d_dist=self.pilSelected_Dist[0],sh=self.pilSelected_Sh[0],alpha=self.alpha[0],truealpha=self.truealpha[0], mon=None)
                 self.cutData[-1]=self.pilatus.hintData
             self.cutLabel[-1]='summed cuts'
         else:
             j=0
             for i in self.selectedPilFramesNums:
                 if self.ui.pilCutDirComboBox.currentText()=='H Cut':
-                    self.pilatus.plotVint(self.selCutPilData[i],self.selCutPilErrorData[i],absfac=self.absfac,absnum=self.pilSelected_AbsNum[j], cen=[self.xcenter[j],self.ycenter[j]], hroi=None, vroi=[int(ini)-1, int(fin)-1], ax_type=str(self.ui.pilAxesComboBox.currentText()), wavelength=self.wavelength[j],s2d_dist=self.distance[j],sh=self.pilSelected_Sh[j],alpha=self.alpha[j],dth=self.dth[j], mon=None)
+                    self.pilatus.plotVint(self.selCutPilData[i],self.selCutPilErrorData[i],absfac=self.absfac,absnum=self.pilSelected_AbsNum[j], cen=[self.xcenter[j],self.ycenter[j]], hroi=None, vroi=[max(int(ini),0), min(int(fin)+1,self.pilatus.NROWS)], ax_type=str(self.ui.pilAxesComboBox.currentText()), wavelength=self.wavelength[j],s2d_dist=self.distance[j],sh=self.pilSelected_Sh[j],alpha=self.alpha[j],dth=self.dth[j], mon=None)
                     self.cutData[i]=self.pilatus.vintData
                 elif self.ui.pilCutDirComboBox.currentText()=='Qz Cut':
                     beta=np.arcsin(2*np.sin(self.alpha[j])-np.sin(self.truealpha[j]))  # get the beta value 
@@ -4104,17 +4209,17 @@ class MainWindow (QMainWindow):
                     fin1=int(np.tan(np.arcsin(fin*self.wavelength[j]/2.0/np.pi-np.sin(self.alpha[j]))-beta)*self.distance[j]/0.172)+self.ycenter[j]
                     #ini1=-int((self.distance[j]*np.arcsin(ini*self.wavelength[j]/2.0/np.pi-np.sin(self.alpha[j]))+self.pilSelected_Sh[j])/0.172)+self.ycenter[j]
                     #fin1=-int((self.distance[j]*np.arcsin(fin*self.wavelength[j]/2.0/np.pi-np.sin(self.alpha[j]))+self.pilSelected_Sh[j])/0.172)+self.ycenter[j]                
-                    self.pilatus.plotVint(self.selCutPilData[i],self.selCutPilErrorData[i],absfac=self.absfac,absnum=self.pilSelected_AbsNum[j],cen=[self.xcenter[j],self.ycenter[j]],  hroi=None,  vroi=[int(ini1)-1, int(fin1)-1], ax_type='Q', wavelength=self.wavelength[j],s2d_dist=self.distance[j],sh=self.pilSelected_Sh[j],alpha=self.alpha[j], dth=self.dth[j], mon=None)
+                    self.pilatus.plotVint(self.selCutPilData[i],self.selCutPilErrorData[i],absfac=self.absfac,absnum=self.pilSelected_AbsNum[j],cen=[self.xcenter[j],self.ycenter[j]],  hroi=None,  vroi=[max(int(ini),0), min(int(fin)+1,self.pilatus.NROWS)], ax_type='Q', wavelength=self.wavelength[j],s2d_dist=self.distance[j],sh=self.pilSelected_Sh[j],alpha=self.alpha[j], dth=self.dth[j], mon=None)
                     self.cutData[i]=self.pilatus.vintData    
                 elif self.ui.pilCutDirComboBox.currentText()=='V Cut':
-                    self.pilatus.plotHint(self.selCutPilData[i],self.selCutPilErrorData[i],absfac=self.absfac,absnum=self.pilSelected_AbsNum[j],cen=[self.xcenter[j],self.ycenter[j]], hroi=[int(ini)-1, int(fin)-1],  vroi=None, ax_type=str(self.ui.pilAxesComboBox.currentText()), wavelength=self.wavelength[j],s2d_dist=self.distance[j],sh=self.pilSelected_Sh[j],alpha=self.alpha[j],truealpha=self.truealpha[j], mon=None)
+                    self.pilatus.plotHint(self.selCutPilData[i],self.selCutPilErrorData[i],absfac=self.absfac,absnum=self.pilSelected_AbsNum[j],cen=[self.xcenter[j],self.ycenter[j]], hroi=[max(int(ini),0), min(int(fin)+1,self.pilatus.NCOLS)],  vroi=None, ax_type=str(self.ui.pilAxesComboBox.currentText()), wavelength=self.wavelength[j],s2d_dist=self.distance[j],sh=self.pilSelected_Sh[j],alpha=self.alpha[j],truealpha=self.truealpha[j], mon=None)
                     self.cutData[i]=self.pilatus.hintData
                 else:
                     ini1=int((2.0*np.arcsin(ini*self.wavelength[j]/4.0/np.pi)-self.dth[j])*self.distance[j]/0.172)+self.xcenter[j]
                     fin1=int((2.0*np.arcsin(fin*self.wavelength[j]/4.0/np.pi)-self.dth[j])*self.distance[j]/0.172)+self.xcenter[j]
                    # ini1=int(2.0*self.distance[j]*np.arcsin(ini*self.wavelength[j]/4.0/np.pi)/0.172)+self.xcenter[j]
                     #fin1=int(2.0*self.distance[j]*np.arcsin(fin*self.wavelength[j]/4.0/np.pi)/0.172)+self.xcenter[j]
-                    self.pilatus.plotHint(self.selCutPilData[i],self.selCutPilErrorData[i],absfac=self.absfac,absnum=self.pilSelected_AbsNum[j], cen=[self.xcenter[j],self.ycenter[j]], hroi=[int(ini1-1), int(fin1-1)],  vroi=None, ax_type='Q', wavelength=self.wavelength[j],s2d_dist=self.distance[j],sh=self.pilSelected_Sh[j],alpha=self.alpha[j], truealpha=self.truealpha[j], mon=None)
+                    self.pilatus.plotHint(self.selCutPilData[i],self.selCutPilErrorData[i],absfac=self.absfac,absnum=self.pilSelected_AbsNum[j], cen=[self.xcenter[j],self.ycenter[j]], hroi=[max(int(ini),0), min(int(fin)+1,self.pilatus.NCOLS)],  vroi=None, ax_type='Q', wavelength=self.wavelength[j],s2d_dist=self.distance[j],sh=self.pilSelected_Sh[j],alpha=self.alpha[j], truealpha=self.truealpha[j], mon=None)
                     self.cutData[i]=self.pilatus.hintData
                 self.cutLabel[i]=str(self.ui.imageListWidget.item(i).text().split('\t')[0])+' '+str(self.ui.imageListWidget.item(i).text().split('\t')[1])
                 j=j+1
@@ -4140,8 +4245,13 @@ class MainWindow (QMainWindow):
     
     def updatePilGIDCutData(self):
         self.ui.cutPlotMplWidget.canvas.ax.clear()
-        start=float(self.ui.pilIntRangeLineEdit.text().split(':')[0])
-        end=float(self.ui.pilIntRangeLineEdit.text().split(':')[1])
+        try:
+            start=float(self.ui.pilIntRangeLineEdit.text().split(':')[0])
+            end=float(self.ui.pilIntRangeLineEdit.text().split(':')[1])
+        except:
+            self.messageBox('Please enter the range in the format "min:max"')
+            self.ui.pilIntRangeLineEdit.setText('1:1024')
+            return
         if str(self.ui.pilAxesComboBox.currentText())=='Angles':   
             if str(self.ui.pilCutDirComboBox.currentText())=='H Cut':
                 ini=np.where(self.pilGIDYAxs[:,0]>=start)[0][0]
@@ -4223,7 +4333,7 @@ class MainWindow (QMainWindow):
         self.ui.cutPlotMplWidget.canvas.draw()
         
     def saveCutData(self):
-        self.saveFileName=str(QFileDialog.getSaveFileName(caption='Save Cuts', directory=self.directory))
+        self.saveFileName=QFileDialog.getSaveFileName(caption='Save Cuts', directory=self.directory)[0]
         if self.det=='Bruker':            
             if self.ui.gixSumCheckBox.checkState()!=0:
                 self.fname=self.saveFileName+str(self.ui.imageListWidget.item(0).text().split('\t')[0])+'_sumcut.txt'
@@ -4641,7 +4751,7 @@ class MainWindow (QMainWindow):
             # self.connect(self.uipeakfit.bgSpinBox, SIGNAL('valueChanged(int)'), self.modBGPara) #change parameters for the bg
             self.uipeakfit.bgSpinBox.valueChanged.connect(self.modBGPara)
             # self.connect(self.uipeakfit.exportFitPushButton,SIGNAL('clicked()'), self.savePeakFit) #save peak fit
-            self.uipeakfit.exportParaPushButton.clicked.connect(self.savePeakFit)
+            self.uipeakfit.exportFitPushButton.clicked.connect(self.savePeakFit)
             # self.connect(self.uipeakfit.exportParaPushButton,SIGNAL('clicked()'), self.savePeakPara) #save peak fit
             self.uipeakfit.exportParaPushButton.clicked.connect(self.savePeakPara)
             # self.connect(self.uipeakfit.peakTW,SIGNAL('cellDoubleClicked(int,int)'),partial(self.setupPeakPara,'peak')) #setup the peak para limits.
@@ -4983,7 +5093,7 @@ class MainWindow (QMainWindow):
 
     def add2dPlotFile(self): #add plot files into the listwidget and deselect all ref files in the listwidget
         f=QFileDialog.getOpenFileNames(caption='Select Multiple Files to import', directory=self.directory, filter='Files (*.*)')[0]
-        self.twodplotfiles=self.twodplotfiles+map(str, f)
+        self.twodplotfiles=self.twodplotfiles+list(map(str, f))
         self.update2dPlotFile()
         
     def updateSelected2dPlotFile(self): #update the selected data files in the listwidget

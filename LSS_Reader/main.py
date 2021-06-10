@@ -18,7 +18,7 @@ if __name__ == '__main__':
     w = MainWindow()
     w.setWindowTitle('LSS-Reader')
     w.setWindowIcon(QIcon('logo.png'))
-    w.show()
+    w.showMaximized()
 
     # connection
     # app.lastWindowClosed.connect()
