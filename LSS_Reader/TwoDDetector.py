@@ -5,6 +5,7 @@ import os
 import array
 import pylab
 from scipy.optimize import leastsq
+import traceback
   
 
 class TwoDDetector:

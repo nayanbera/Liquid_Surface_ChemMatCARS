@@ -1,10 +1,11 @@
 # -*- mode: python ; coding: utf-8 -*-
 
+
 block_cipher = None
 
 
 a = Analysis(['main.py'],
-             pathex=['C:\\Users\\bu\\PycharmProjects\\Liquid_Surface_ChemMatCARS\\LSS_Reader'],
+             pathex=['C:\\Users\\bu\\PY38\\Liquid_Surface_ChemMatCARS\\LSS_Reader'],
              binaries=[],
              datas=[('*.ui','.'),
                     ('mpl2dwidget.py','.'),

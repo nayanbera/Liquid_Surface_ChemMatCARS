@@ -28,6 +28,7 @@ import sys
 import matplotlib as mpl
 from lmfit import minimize, Parameters, Parameter, report_fit, fit_report
 from functools import partial
+import traceback
 #from TwoD_Integrate import integrate_2d
 
 
@@ -119,7 +120,7 @@ class MainWindow (QMainWindow):
         self.ui.plotMoveDownPushButton.setIcon(QIcon('arrow_down.png'))
         self.init_signals()
         self.specFileName=None
-        #self.openSpecFile(fname='C:/Users/bu/Desktop/sample_data/sample')
+        self.openSpecFile(fname='C:/Users/bu/Desktop/sample_data/sample')
         self.initValidator()
 
 
@@ -690,40 +691,30 @@ class MainWindow (QMainWindow):
             self.ui.spYComboBox.clear()
             self.ui.spY2ComboBox.clear()
             self.ui.spNComboBox.clear()
-            self.ui.spXComboBox.addItems(self.specData[self.selectedScanNums[0]]['ScanVar'])
-            self.ui.spYComboBox.addItems(self.specData[self.selectedScanNums[0]]['ScanVar'])
-            self.ui.spY2ComboBox.addItems(['None'])
-            self.ui.spY2ComboBox.addItems(self.specData[self.selectedScanNums[0]]['ScanVar'])
-         #   ycol=self.ui.spYComboBox.findText(self.specData['YCol'])
-         #   if ycol>0:
-         #       self.ui.spYComboBox.setCurrentIndex(self.ui.spYComboBox.findText(self.specData['YCol']))
-         #   else:
-         #       self.ui.spYComboBox.setCurrentIndex(len(self.specData[self.selectedScanNums[0]]['ScanVar'])-1)
-            self.ui.spNComboBox.addItems(self.specData[self.selectedScanNums[0]]['ScanVar'])
-         #   ncol=self.ui.spYComboBox.findText(self.specData['NCol'])
-         #   if ncol>0:
-         #       self.ui.spNComboBox.setCurrentIndex(self.ui.spNComboBox.findText(self.specData['NCol']))
-         #   else:
-         #       self.ui.spNComboBox.setCurrentIndex(len(self.specData[self.selectedScanNums[0]]['ScanVar'])-2)   
-            if self.specData[self.selectedScanNums[0]]['ScanVar'][0]=='H':
-                self.ui.spXComboBox.setCurrentIndex(2)
-            else: 
-                self.ui.spXComboBox.setCurrentIndex(0)
-            self.ui.spYComboBox.setCurrentIndex(len(self.specData[self.selectedScanNums[0]]['ScanVar'])-1)
-            self.ui.spY2ComboBox.setCurrentIndex(0)
-            self.ui.spNComboBox.setCurrentIndex(len(self.specData[self.selectedScanNums[0]]['ScanVar'])-2)
-            # self.disconnect(self.ui.spXComboBox, SIGNAL('currentIndexChanged(int)'),self.updateSpecPlotData)
+            try:
+                self.ui.spXComboBox.addItems(self.specData[self.selectedScanNums[0]]['ScanVar'])
+                self.ui.spYComboBox.addItems(self.specData[self.selectedScanNums[0]]['ScanVar'])
+                self.ui.spY2ComboBox.addItems(['None'])
+                self.ui.spY2ComboBox.addItems(self.specData[self.selectedScanNums[0]]['ScanVar'])
+                self.ui.spNComboBox.addItems(self.specData[self.selectedScanNums[0]]['ScanVar'])
+                if self.specData[self.selectedScanNums[0]]['ScanVar'][0]=='H':
+                    self.ui.spXComboBox.setCurrentIndex(2)
+                else:
+                    self.ui.spXComboBox.setCurrentIndex(0)
+                self.ui.spYComboBox.setCurrentIndex(len(self.specData[self.selectedScanNums[0]]['ScanVar'])-1)
+                self.ui.spY2ComboBox.setCurrentIndex(0)
+                self.ui.spNComboBox.setCurrentIndex(len(self.specData[self.selectedScanNums[0]]['ScanVar'])-2)
+
+            except:   #for getandsave_mca, which doesn't have any 'ScanVar'
+                pass
             self.ui.spXComboBox.currentIndexChanged.connect(self.updateSpecPlotData)
-            # self.disconnect(self.ui.spYComboBox, SIGNAL('currentIndexChanged(int)'),self.updateSpecPlotData)
             self.ui.spYComboBox.currentIndexChanged.connect(self.updateSpecPlotData)
-            # self.disconnect(self.ui.spY2ComboBox, SIGNAL('currentIndexChanged(int)'),self.updateSpecPlotData)
             self.ui.spY2ComboBox.currentIndexChanged.connect(self.updateSpecPlotData)
-            # self.disconnect(self.ui.spNComboBox, SIGNAL('currentIndexChanged(int)'),self.updateSpecPlotData)
             self.ui.spNComboBox.currentIndexChanged.connect(self.updateSpecPlotData)
             try:
                 self.updateSpecPlotData()
             except:
-                self.ui.statusBar.showMessage('Warning:: The scan(s) are not regular Spec scan')
+                self.messageBox('Warning:: The scan(s) are not regular Spec scan')
             if self.specPar[self.selectedScanNums[0]]['Detector']=='Vortex':
                 self.updateMcaImageList()
                 self.ui.imagesLabel.setText('Vortex:')
@@ -778,6 +769,7 @@ class MainWindow (QMainWindow):
     def updateSpecPlotData(self):
         self.ui.statusBar.clearMessage()
         self.ui.specPlotMplWidget.canvas.ax.clear()
+        self.ui.PlotWidget.setCurrentIndex(0)
         self.specData['YCol']=str(self.ui.spYComboBox.currentText())
         self.specData['NCol']=str(self.ui.spNComboBox.currentText())
         title='File: '+self.specFileName+' S# '+str([item for item in np.sort(self.selectedScanNums)])[1:-1]
@@ -785,8 +777,12 @@ class MainWindow (QMainWindow):
             self.ui.statusBar.showMessage('Error:: The scans are not identical or some scans have no data!!')
         else:
             for i in self.selectedScanNums:
-                x=self.specData[i][str(self.ui.spXComboBox.currentText())]
-                y=self.specData[i][str(self.ui.spYComboBox.currentText())]
+                tempx=self.specData[i][str(self.ui.spXComboBox.currentText())]
+                tempy=self.specData[i][str(self.ui.spYComboBox.currentText())]
+                if tempx is None or tempy is None:
+                    break
+                x=tempx
+                y=tempy
                 n=self.specData[i][str(self.ui.spNComboBox.currentText())]
                 if str(self.ui.spY2ComboBox.currentText())=='None':
                     self.label='S '+str(i)
@@ -797,10 +793,10 @@ class MainWindow (QMainWindow):
                     y2=self.specData[i][str(self.ui.spY2ComboBox.currentText())]
                     self.label='S '+str(i)+str(self.ui.spY2ComboBox.currentText())
                     self.specPlot(x,y2,n)
-            yerr=pl.sqrt(np.abs(y))
-            if self.ui.spNCheckBox.checkState()!=0:
-                yerr=pl.sqrt(y/n**2+y**2/n**3)
-                y=y/n
+                yerr=pl.sqrt(np.abs(y))
+                if self.ui.spNCheckBox.checkState()!=0:
+                    yerr=pl.sqrt(y/n**2+y**2/n**3)
+                    y=y/n
             try:
                 self.specPeakFit(x,y,yerr)
                 self.peakPos='%.4f'%x[np.argmax(y)]
@@ -1412,10 +1408,15 @@ class MainWindow (QMainWindow):
         self.pil_S1h=[]
         self.pil_S4h=[]
         self.pil_S5h=[]
+        self.selectedScanNums.sort()
         for i in self.selectedScanNums:
             #self.ui.scanListWidget.setItemSelected(self.ui.scanListWidget.item(i),True)
-#            try:
-            self.numFrames[i]=len(self.specData[i][self.specData[i]['ScanVar'][0]])  #get frame number for each scan
+            try:
+                self.numFrames[i]=len(self.specData[i][self.specData[i]['ScanVar'][0]])  #get frame number for each scan
+            except:
+                #self.ui.imageListWidget.itemSelectionChanged.connect(self.imageSelectedScanChanged)
+                self.messageBox('Warning: scan ' + str(i)+ ' has no data!')
+                break
             try:
                 self.pilMonc=np.append(self.pilMonc, self.specData[i]['Monc'])
             except:
@@ -2537,9 +2538,9 @@ class MainWindow (QMainWindow):
                     self.pilhintHQDatadic[ckey].append(np.vstack((dth,self.pilatus.hintData[:,0],self.pilatus.hintData[:,1]*np.average(averagemonc[ckey]),self.pilatus.hintData[:,2]*np.average(averagemonc[ckey]))).transpose())
                 else:
                     self.pilhintHQDatadic[ckey]=[np.vstack((dth,self.pilatus.hintData[:,0],self.pilatus.hintData[:,1],self.pilatus.hintData[:,2])).transpose()]
-        LQkeys=self.sortedScans(self.pilhintLQDatadic) #sorted scan numbers for low, middle, high qz. 
-        MQkeys=self.sortedScans(self.pilhintMQDatadic)
-        HQkeys=self.sortedScans(self.pilhintHQDatadic)
+        LQkeys=self.sortedScans(self.pilhintLQDatadic, mtype='dth') #sorted scan numbers for low, middle, high qz.
+        MQkeys=self.sortedScans(self.pilhintMQDatadic, mtype='dth')
+        HQkeys=self.sortedScans(self.pilhintHQDatadic, mtype='dth')
        # print areainfo, LQkeys, MQkeys
        # print self.pilhintLQDatadic
        # print self.pilhintLQDatadic[LQkeys[0]][0][0][0]
@@ -2562,32 +2563,53 @@ class MainWindow (QMainWindow):
                 self.pilhintHQDatadic[HQkeys[i]][j][:,3]=self.pilhintHQDatadic[HQkeys[i]][j][:,3]/areacorr/(1-(np.sin(self.pilhintHQDatadic[HQkeys[i]][j][:,0]*np.pi/180)*np.cos(self.pilhintHQDatadic[HQkeys[i]][j][:,1]*np.pi/180))**2)
        # print self.pilhintLQDatadic
         if len(LQkeys)>1: #for low qz
-            self.pilLQPatchData=self.imagehjoin(self.pilhintLQDatadic[LQkeys[0]],self.pilhintLQDatadic[LQkeys[1]]) #horizontally patch the first two images
-            for i in range(2,len(LQkeys)):
-                self.pilLQPatchData=self.imagehjoin(self.pilLQPatchData,self.pilhintLQDatadic[LQkeys[i]])  #horizontally patch other images at low qz if necessary 
+            try:
+                self.pilLQPatchData=self.imagehjoin(self.pilhintLQDatadic[LQkeys[0]],self.pilhintLQDatadic[LQkeys[1]]) #horizontally patch the first two images
+                for i in range(2,len(LQkeys)):
+                    self.pilLQPatchData=self.imagehjoin(self.pilLQPatchData,self.pilhintLQDatadic[LQkeys[i]])  #horizontally patch other images at low qz if necessary
+            except:
+                self.messageBox('Warning: One or more of selected scans do not have enough points for the horizontal patching!')
+                return
         else:
             self.pilLQPatchData=self.pilhintLQDatadic[LQkeys[0]]
         if len(MQkeys)>1:  #for middle qz
-            self.pilMQPatchData=self.imagehjoin(self.pilhintMQDatadic[MQkeys[0]],self.pilhintMQDatadic[MQkeys[1]]) #horizontally patch the first two images
-            for i in range(2,len(MQkeys)):
-                self.pilMQPatchData=self.imagehjoin(self.pilMQPatchData,self.pilhintMQDatadic[MQkeys[i]])  #horizontally patch other images at low qz if necessary 
+            try:
+                self.pilMQPatchData=self.imagehjoin(self.pilhintMQDatadic[MQkeys[0]],self.pilhintMQDatadic[MQkeys[1]]) #horizontally patch the first two images
+                for i in range(2,len(MQkeys)):
+                    self.pilMQPatchData=self.imagehjoin(self.pilMQPatchData,self.pilhintMQDatadic[MQkeys[i]])  #horizontally patch other images at low qz if necessary
+            except:
+                self.messageBox('Warning: One or more of selected scans do not have enough points for the horizontal patching!')
+                return
         elif len(MQkeys)==1:
             self.pilMQPatchData=self.pilhintMQDatadic[MQkeys[0]]
         else:
             self.pilMQPatchData=[]
         if len(HQkeys)>1: #for middle qz
-            self.pilHQPatchData=self.imagehjoin(self.pilhintHQDatadic[HQkeys[0]],self.pilhintHQDatadic[HQkeys[1]]) #horizontally patch the first two images
-            for i in range(2,len(HQkeys)):
-                self.pilHQPatchData=self.imagehjoin(self.pilHQPatchData,self.pilhintHQDatadic[HQkeys[i]])  #horizontally patch other images at low qz if necessary 
+            try:
+                self.pilHQPatchData=self.imagehjoin(self.pilhintHQDatadic[HQkeys[0]],self.pilhintHQDatadic[HQkeys[1]]) #horizontally patch the first two images
+                for i in range(2,len(HQkeys)):
+                    self.pilHQPatchData=self.imagehjoin(self.pilHQPatchData,self.pilhintHQDatadic[HQkeys[i]])  #horizontally patch other images at low qz if necessary
+            except:
+                self.messageBox('Warning: One or more of selected scans do not have enough points for the horizontal patching!')
+                return
         elif len(HQkeys)==1:
             self.pilHQPatchData=self.pilhintHQDatadic[MQkeys[0]]
         else:
             self.pilHQPatchData=[]
         self.pilPatchData=self.pilLQPatchData # need vertical patch later on
         if len(self.pilMQPatchData)!=0:
-            self.pilPatchData=self.imagevjoin(self.pilPatchData,self.pilMQPatchData)
+            try:
+                self.pilPatchData=self.imagevjoin(self.pilPatchData,self.pilMQPatchData)
+            except:
+                self.messageBox('Warning: One or more of selected scans do not have enough points for the vertical patching!')
+                return
         if len(self.pilHQPatchData)!=0:
-            self.pilPatchData=self.imagevjoin(self.pilPatchData,self.pilHQPatchData)
+            try:
+                self.pilPatchData=self.imagevjoin(self.pilPatchData,self.pilHQPatchData)
+            except:
+                self.messageBox('Warning: One or more of selected scans do not have enough points for the vertical patching!')
+                return
+
         
         pilGIDXAxis=[self.pilPatchData[i][0][0] for i in range(len(self.pilPatchData))]  #get x-axis
         pilGIDYAxis=list(self.pilPatchData[0][:,1])  #get y-axis
@@ -2732,7 +2754,7 @@ class MainWindow (QMainWindow):
             self.gidax_v.set_title('Integrated over '+r'$2\theta$')
             #get the v-slice-cut data
             vc_ran=np.linspace(np.where(self.pilGIDYAxs[:,0]>0)[0][0],np.where(self.pilGIDYAxs[:,0]>0)[0][-1],5)
-            vc_ran=map(int,vc_ran)
+            vc_ran=list(map(int,vc_ran))
             self.gid_vc={}
             for i in range(4):
                 self.gid_vc[i]=np.vstack((self.pilGIDXAxs[0,:],np.sum(self.pilGIDData[vc_ran[i]:vc_ran[i+1],:],axis=0),np.sqrt(np.sum(self.pilGIDDataErr[vc_ran[i]:vc_ran[i+1],:]**2,axis=0)))).transpose()
@@ -3066,17 +3088,24 @@ class MainWindow (QMainWindow):
         return datanew
     
     
-    def sortedScans(self,data):  #reture the order of scans from low dth to higt dth, also works for sorting qz in the ref
+    def sortedScans(self,data, mtype='dth'):  #reture the order of scans from low dth to higt dth, also works for sorting qz in the ref
         if len(data)<2:
             return list(data.keys())
         else:
+            #print(data)
             x={}
             sorted_keys=[]
             for keys in data.keys():
-                try:
+                #print(len(data[keys]), data[keys])
+                if mtype=='dth':
                     x[keys]=sorted([data[keys][0][0][0],data[keys][-1][0][0]]) #get dth range for each key, i.e., scan number
-                except:
-                    x[keys]=sorted([data[keys][0][0],data[keys][-1][0]])  #get qz range for each key
+                else:
+                    try:
+                        x[keys]=sorted([data[keys][0][0],data[keys][-1][0]])  #get qz range for each key
+                    except:
+                        self.messageBox('Warning: Scan ' + str(keys) + ' does not have enough points for patching!')
+                        return
+            #print(x)
             sorted_x=sorted(x.items(), key=lambda t:t[1])  #sort the dth range
             for i in range(len(sorted_x)):
                 sorted_keys.append(sorted_x[i][0]) #make an array for keys (scan number) based on the dth range
@@ -3641,9 +3670,12 @@ class MainWindow (QMainWindow):
                 sig,sigerr,lbg,lbgerr,rbg,rbgerr=self.pilatus.sumROI(slit=self.slit,cen=[cenx,ceny],dir=self.dir,bg=self.bg)  
                 #self.scanqzframe[qkey]=[np.vstack((self.pilFileQzs[i],sig-(lbg+rbg)/2.0, np.sqrt(sigerr**2+(lbgerr**2+rbgerr**2)/4))).T]
                 self.scanqzframe[qkey]=np.array([self.pilFileQzs[i],sig-(lbg+rbg)/2.0, np.sqrt(sigerr**2+(lbgerr**2+rbgerr**2)/4),sig,sigerr,lbg,rbg])
-        self.pilrefsort=list(self.sortedScans(self.scanqzframe))
+        try:
+            self.pilrefsort=list(self.sortedScans(self.scanqzframe, mtype='qz'))
+        except:
+            return
 
-       # print self.scanqzframe
+        #print(self.scanqzframe)
         print (self.pilrefsort)
         if len(self.pilRefPeakCen)!=0:
             self.pilRefPeakCenDis()
@@ -3711,7 +3743,7 @@ class MainWindow (QMainWindow):
     
     def pilRefSameScanPlot(self):  
         if self.pilrefsamescanorder==len(self.pilrefsamescannum):
-            self.pilrefsort=self.sortedScans(self.scanqzframe)
+            self.pilrefsort=self.sortedScans(self.scanqzframe, mtype='qz')
             self.uirefpatchsamescan.close()
             self.pilRefPatch()
         else:
@@ -3775,9 +3807,16 @@ class MainWindow (QMainWindow):
             self.uirefpatch.Label.setText('Reflectivity Patch between Scans '+str(self.pilrefsort[self.pilreforder])+' and '+str(self.pilrefsort[self.pilreforder+1]))
             if self.scanqzframe[self.pilrefsort[self.pilreforder]][-1][0]<self.scanqzframe[self.pilrefsort[self.pilreforder+1]][0][0]:
                 self.messageBox('Warning: no overlap qz between slected frames from scan '+str(self.pilrefsort[self.pilreforder])+' and '+str(self.pilrefsort[self.pilreforder+1])+'!!!')
+                self.uirefpatch.close()
             else:
                #print self.scanqzframe[self.pilrefsort[self.pilreforder]],self.scanqzframe[self.pilrefsort[self.pilreforder+1]]
-                fac,xmin,xmax,ymin,ymax=self.oneDjoin(self.scanqzframe[self.pilrefsort[self.pilreforder]],self.scanqzframe[self.pilrefsort[self.pilreforder+1]],mtype='fac')
+                try:
+                    fac,xmin,xmax,ymin,ymax=self.oneDjoin(self.scanqzframe[self.pilrefsort[self.pilreforder]],self.scanqzframe[self.pilrefsort[self.pilreforder+1]],mtype='fac')
+                except:
+                    self.messageBox('Warning: Scan ' + str(self.pilrefsort[self.pilreforder]) + ' or ' + str(self.pilrefsort[self.pilreforder+1]) + ' does not have enough points for patching!')
+                    self.uirefpatch.close()
+                    return
+
                 #print self.scanqzframe[self.pilrefsort[self.pilreforder]],self.scanqzframe[self.pilrefsort[self.pilreforder+1]]                
                 self.uirefpatch.plotWidget.canvas.ax.clear()
                 self.uirefpatch.plotWidget.canvas.ax.set_xlabel(r'$Q_z$'+' '+r'$[\AA^{-1}]$')
@@ -3802,7 +3841,12 @@ class MainWindow (QMainWindow):
             if self.scanqzframe[self.pilrefsort[self.pilreforder]][-1][0]<self.scanqzframe[self.pilrefsort[self.pilreforder+1]][0][0]:
                 self.messageBox('Warning: no overlap qz between slected frames from scan '+str(self.pilrefsort[self.pilreforder])+' and '+str(self.pilrefsort[self.pilreforder+1])+'!!!')
             else:
-                fac,xmin,xmax,ymin,ymax=self.oneDjoin(self.pilrefdata,self.scanqzframe[self.pilrefsort[self.pilreforder+1]],mtype='fac')
+                try:
+                    fac,xmin,xmax,ymin,ymax=self.oneDjoin(self.pilrefdata,self.scanqzframe[self.pilrefsort[self.pilreforder+1]],mtype='fac')
+                except:
+                    self.messageBox('Warning: Scan ' + str(self.pilrefsort[self.pilreforder]) + ' or ' + str(self.pilrefsort[self.pilreforder+1]) + ' does not have enough points for patching!')
+                    self.uirefpatch.close()
+                    return
                 self.uirefpatch.plotWidget.canvas.ax.clear()
                 self.uirefpatch.plotWidget.canvas.ax.set_xlabel(r'$Q_z$'+' '+r'$[\AA^{-1}]$')
                 self.uirefpatch.plotWidget.canvas.ax.set_ylabel('Reflectivity')
@@ -4214,7 +4258,7 @@ class MainWindow (QMainWindow):
                     fin1=int(np.tan(np.arcsin(fin*self.wavelength[j]/2.0/np.pi-np.sin(self.alpha[j]))-beta)*self.distance[j]/0.172)+self.ycenter[j]
                     #ini1=-int((self.distance[j]*np.arcsin(ini*self.wavelength[j]/2.0/np.pi-np.sin(self.alpha[j]))+self.pilSelected_Sh[j])/0.172)+self.ycenter[j]
                     #fin1=-int((self.distance[j]*np.arcsin(fin*self.wavelength[j]/2.0/np.pi-np.sin(self.alpha[j]))+self.pilSelected_Sh[j])/0.172)+self.ycenter[j]                
-                    self.pilatus.plotVint(self.selCutPilData[i],self.selCutPilErrorData[i],absfac=self.absfac,absnum=self.pilSelected_AbsNum[j],cen=[self.xcenter[j],self.ycenter[j]],  hroi=None,  vroi=[max(int(ini),0), min(int(fin)+1,self.pilatus.NROWS)], ax_type='Q', wavelength=self.wavelength[j],s2d_dist=self.distance[j],sh=self.pilSelected_Sh[j],alpha=self.alpha[j], dth=self.dth[j], mon=None)
+                    self.pilatus.plotVint(self.selCutPilData[i],self.selCutPilErrorData[i],absfac=self.absfac,absnum=self.pilSelected_AbsNum[j],cen=[self.xcenter[j],self.ycenter[j]],  hroi=None,  vroi=[max(int(ini1),0), min(int(fin1)+1,self.pilatus.NROWS)], ax_type='Q', wavelength=self.wavelength[j],s2d_dist=self.distance[j],sh=self.pilSelected_Sh[j],alpha=self.alpha[j], dth=self.dth[j], mon=None)
                     self.cutData[i]=self.pilatus.vintData    
                 elif self.ui.pilCutDirComboBox.currentText()=='V Cut':
                     self.pilatus.plotHint(self.selCutPilData[i],self.selCutPilErrorData[i],absfac=self.absfac,absnum=self.pilSelected_AbsNum[j],cen=[self.xcenter[j],self.ycenter[j]], hroi=[max(int(ini),0), min(int(fin)+1,self.pilatus.NCOLS)],  vroi=None, ax_type=str(self.ui.pilAxesComboBox.currentText()), wavelength=self.wavelength[j],s2d_dist=self.distance[j],sh=self.pilSelected_Sh[j],alpha=self.alpha[j],truealpha=self.truealpha[j], mon=None)
@@ -4224,7 +4268,7 @@ class MainWindow (QMainWindow):
                     fin1=int((2.0*np.arcsin(fin*self.wavelength[j]/4.0/np.pi)-self.dth[j])*self.distance[j]/0.172)+self.xcenter[j]
                    # ini1=int(2.0*self.distance[j]*np.arcsin(ini*self.wavelength[j]/4.0/np.pi)/0.172)+self.xcenter[j]
                     #fin1=int(2.0*self.distance[j]*np.arcsin(fin*self.wavelength[j]/4.0/np.pi)/0.172)+self.xcenter[j]
-                    self.pilatus.plotHint(self.selCutPilData[i],self.selCutPilErrorData[i],absfac=self.absfac,absnum=self.pilSelected_AbsNum[j], cen=[self.xcenter[j],self.ycenter[j]], hroi=[max(int(ini),0), min(int(fin)+1,self.pilatus.NCOLS)],  vroi=None, ax_type='Q', wavelength=self.wavelength[j],s2d_dist=self.distance[j],sh=self.pilSelected_Sh[j],alpha=self.alpha[j], truealpha=self.truealpha[j], mon=None)
+                    self.pilatus.plotHint(self.selCutPilData[i],self.selCutPilErrorData[i],absfac=self.absfac,absnum=self.pilSelected_AbsNum[j], cen=[self.xcenter[j],self.ycenter[j]], hroi=[max(int(ini1),0), min(int(fin1)+1,self.pilatus.NCOLS)],  vroi=None, ax_type='Q', wavelength=self.wavelength[j],s2d_dist=self.distance[j],sh=self.pilSelected_Sh[j],alpha=self.alpha[j], truealpha=self.truealpha[j], mon=None)
                     self.cutData[i]=self.pilatus.hintData
                 self.cutLabel[i]=str(self.ui.imageListWidget.item(i).text().split('\t')[0])+' '+str(self.ui.imageListWidget.item(i).text().split('\t')[1])
                 j=j+1

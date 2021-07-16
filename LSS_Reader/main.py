@@ -4,6 +4,7 @@ import sys
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtCore import QObject
 from PyQt5.QtGui import QIcon
+import traceback
 
 from mainwindow import MainWindow
 

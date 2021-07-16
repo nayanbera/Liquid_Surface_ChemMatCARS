@@ -1,13 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="312939c2-55a5-4314-acfc-cfae75a345d3" name="Default Changelist" comment="">
+    <list default="true" id="312939c2-55a5-4314-acfc-cfae75a345d3" name="Default Changelist" comment="fix &quot;spec file update&quot; bug">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Reader/TwoDDetector.py" beforeDir="false" afterPath="$PROJECT_DIR$/LSS_Reader/TwoDDetector.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Reader/build/main/Analysis-00.toc" beforeDir="false" afterPath="$PROJECT_DIR$/LSS_Reader/build/main/Analysis-00.toc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Reader/build/main/COLLECT-00.toc" beforeDir="false" afterPath="$PROJECT_DIR$/LSS_Reader/build/main/COLLECT-00.toc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Reader/build/main/EXE-00.toc" beforeDir="false" afterPath="$PROJECT_DIR$/LSS_Reader/build/main/EXE-00.toc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Reader/build/main/PKG-00.pkg" beforeDir="false" afterPath="$PROJECT_DIR$/LSS_Reader/build/main/PKG-00.pkg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Reader/build/main/PKG-00.toc" beforeDir="false" afterPath="$PROJECT_DIR$/LSS_Reader/build/main/PKG-00.toc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Reader/build/main/PYZ-00.pyz" beforeDir="false" afterPath="$PROJECT_DIR$/LSS_Reader/build/main/PYZ-00.pyz" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Reader/build/main/PYZ-00.toc" beforeDir="false" afterPath="$PROJECT_DIR$/LSS_Reader/build/main/PYZ-00.toc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Reader/build/main/Tree-00.toc" beforeDir="false" afterPath="$PROJECT_DIR$/LSS_Reader/build/main/Tree-00.toc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Reader/build/main/Tree-01.toc" beforeDir="false" afterPath="$PROJECT_DIR$/LSS_Reader/build/main/Tree-01.toc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Reader/build/main/main.exe" beforeDir="false" afterPath="$PROJECT_DIR$/LSS_Reader/build/main/main.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Reader/build/main/main.exe.manifest" beforeDir="false" afterPath="$PROJECT_DIR$/LSS_Reader/build/main/main.exe.manifest" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Reader/build/main/warn-main.txt" beforeDir="false" afterPath="$PROJECT_DIR$/LSS_Reader/build/main/warn-main.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Reader/build/main/xref-main.html" beforeDir="false" afterPath="$PROJECT_DIR$/LSS_Reader/build/main/xref-main.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/LSS_Reader/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/LSS_Reader/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Reader/main.spec" beforeDir="false" afterPath="$PROJECT_DIR$/LSS_Reader/main.spec" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/LSS_Reader/mainwindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/LSS_Reader/mainwindow.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LSS_Reader/mainwindow.ui" beforeDir="false" afterPath="$PROJECT_DIR$/LSS_Reader/mainwindow.ui" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -15,11 +30,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file leaf-file-name="mainwindow.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/LSS_Reader/mainwindow.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="11">
-              <caret line="1080" column="44" lean-forward="true" selection-start-line="1080" selection-start-column="44" selection-end-line="1080" selection-end-column="44" />
+            <state relative-caret-position="408">
+              <caret line="2609" column="125" selection-start-line="2609" selection-start-column="125" selection-end-line="2609" selection-end-column="125" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
@@ -27,10 +42,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file leaf-file-name="mainwindow.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/LSS_Analyzer/mainwindow.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1734">
+            <state relative-caret-position="22117">
+              <caret line="1325" column="32" selection-start-line="1325" selection-start-column="32" selection-end-line="1325" selection-end-column="32" />
               <folding>
                 <element signature="e#0#21#0" expanded="true" />
               </folding>
@@ -38,32 +54,29 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/LSS_Reader/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="20" column="21" selection-start-line="20" selection-start-column="21" selection-end-line="20" selection-end-column="21" />
-              <folding>
-                <element signature="e#0#10#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="102">
+              <caret line="6" column="16" selection-start-line="6" selection-start-column="16" selection-end-line="6" selection-end-column="16" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file leaf-file-name="spec_routines.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/LSS_Reader/spec_routines.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="493">
-              <caret line="33" column="32" selection-start-line="33" selection-start-column="32" selection-end-line="33" selection-end-column="32" />
+            <state relative-caret-position="51">
+              <caret line="7" column="10" selection-start-line="7" selection-start-column="10" selection-end-line="7" selection-end-column="10" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file leaf-file-name="TwoDDetector.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/LSS_Reader/TwoDDetector.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="799">
-              <caret line="53" column="22" selection-start-line="53" selection-start-column="12" selection-end-line="53" selection-end-column="22" />
+            <state relative-caret-position="119">
+              <caret line="7" column="16" selection-start-line="7" selection-start-column="16" selection-end-line="7" selection-end-column="16" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -75,29 +88,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>spYComboBox</find>
-      <find>scanListChanged</find>
-      <find>updateSpecPlotData</find>
-      <find>self.selectedPilFrames</find>
-      <find>self.selectedPilFrames=</find>
-      <find>self.bgSelectionChanged</find>
-      <find>str(self.ui.pilIntRangeLineEdit.text()).split(':')[0]</find>
-      <find>self.det</find>
-      <find>twoddetec</find>
-      <find>NROW</find>
-      <find>openspecfile</find>
-      <find>sortedScans</find>
-      <find>connect</find>
-      <find>openSpecFile</find>
-      <find>fname</find>
-      <find>map(s</find>
-      <find>QFileDialog</find>
-      <find>getOpenfilename</find>
-      <find>checkSameScans</find>
-      <find>spXComboBox.currentIndexChanged</find>
       <find>spXComboBox.currentIndexChanged.dis</find>
       <find>messagebox</find>
       <find>dropLineEdit</find>
+      <find>self.ui.PlotWidget.setCurrentIndex(0)</find>
+      <find>self.pilhintLQDatadic</find>
+      <find>self.pilreforder</find>
+      <find>&gt;10</find>
+      <find>self.referrex</find>
+      <find>referrtar</find>
+      <find>self.pilfhead</find>
+      <find>scanListChanged</find>
+      <find>updatePilImageList</find>
+      <find>updateSpecPlotData</find>
+      <find>specPlotSettings</find>
+      <find>pilRefPatchData</find>
+      <find>sortedScans</find>
+      <find>type</find>
+      <find>oneDjoin</find>
+      <find>mtype</find>
+      <find>self.pilrefsort</find>
+      <find>self.pilreforder</find>
+      <find>sortedscan</find>
+      <find>nextpushbutton</find>
+      <find>uirefpatch</find>
+      <find>uirefpatch.close()</find>
+      <find>sortedscans</find>
+      <find>bgSpinBox</find>
+      <find>qxy cut</find>
+      <find>cutPlotMplWidget</find>
+      <find>pilCutDirComboBox</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -107,16 +127,18 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/LSS_Reader/spec_routines.py" />
+        <option value="$PROJECT_DIR$/LSS_Reader/main.spec" />
         <option value="$PROJECT_DIR$/LSS_Reader/main.py" />
+        <option value="$PROJECT_DIR$/LSS_Reader/TwoDDetector.py" />
         <option value="$PROJECT_DIR$/LSS_Reader/mainwindow.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-280" />
-    <option name="y" value="305" />
-    <option name="width" value="3875" />
-    <option name="height" value="2640" />
+    <option name="x" value="1912" />
+    <option name="y" value="-8" />
+    <option name="width" value="1936" />
+    <option name="height" value="1056" />
   </component>
   <component name="ProjectId" id="1qmMxZS89X1e68NdKO8dPWtwifO" />
   <component name="ProjectView">
@@ -156,7 +178,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$USER_HOME$/PycharmProjects/Liquid_Surface_ChemMatCARS" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -189,46 +211,94 @@
       <option name="project" value="LOCAL" />
       <updated>1617726609967</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="fix &quot;spec file update&quot; bug">
+      <created>1623362161935</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1623362161935</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-6" y="-6" width="1549" height="837" extended-state="6" />
+    <frame x="1912" y="-8" width="1936" height="1056" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.19009902" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18967333" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.41666666" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
-      <window_info anchor="bottom" id="Python Console" order="10" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.32900432" />
+      <window_info anchor="bottom" id="Python Console" order="10" weight="0.32900432" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.3430736" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" />
     </layout>
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Updated all the modules for Python 3.8" />
-    <option name="LAST_COMMIT_MESSAGE" value="Updated all the modules for Python 3.8" />
+    <MESSAGE value="fix &quot;spec file update&quot; bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix &quot;spec file update&quot; bug" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$USER_HOME$/AppData/Local/Continuum/anaconda3/envs/py38/Lib/site-packages/numpy/lib/npyio.py">
+    <entry file="file://$PROJECT_DIR$/LSS_Reader/mainwindow.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
-          <caret line="1356" selection-start-line="1356" selection-end-line="1356" />
+        <state relative-caret-position="44353">
+          <caret line="2609" column="125" selection-start-line="2609" selection-start-column="125" selection-end-line="2609" selection-end-column="125" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LSS_Analyzer/mainwindow.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="22525">
+          <caret line="1325" column="32" lean-forward="true" selection-start-line="1325" selection-start-column="32" selection-end-line="1325" selection-end-column="32" />
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LSS_Reader/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="16" selection-start-line="6" selection-start-column="16" selection-end-line="6" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LSS_Reader/spec_routines.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="10" selection-start-line="7" selection-start-column="10" selection-end-line="7" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LSS_Reader/TwoDDetector.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="16" selection-start-line="7" selection-start-column="16" selection-end-line="7" selection-end-column="16" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/LSS_Reader/mainwindow.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="11">
+        <state relative-caret-position="18360">
           <caret line="1080" column="44" lean-forward="true" selection-start-line="1080" selection-start-column="44" selection-end-line="1080" selection-end-column="44" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
@@ -240,9 +310,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
           <caret line="20" column="21" selection-start-line="20" selection-start-column="21" selection-end-line="20" selection-end-column="21" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -265,9 +332,75 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/LSS_Analyzer/mainwindow.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1734">
+        <state>
           <folding>
             <element signature="e#0#21#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Continuum/anaconda3/envs/py38/Lib/site-packages/numpy/lib/npyio.py" />
+    <entry file="file://$PROJECT_DIR$/LSS_Reader/spec_routines.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="7" column="10" selection-start-line="7" selection-start-column="10" selection-end-line="7" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/PycharmProjects/Liquid_Surface_ChemMatCARS/LSS_Reader/main.spec">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="12" column="26" selection-start-line="12" selection-start-column="26" selection-end-line="12" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LSS_Reader/main.spec">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="111">
+          <caret line="11" column="42" selection-start-line="11" selection-start-column="42" selection-end-line="11" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LSS_Analyzer/mainwindow.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="22117">
+          <caret line="1325" column="32" selection-start-line="1325" selection-start-column="32" selection-end-line="1325" selection-end-column="32" />
+          <folding>
+            <element signature="e#0#21#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LSS_Reader/TwoDDetector.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="16" selection-start-line="7" selection-start-column="16" selection-end-line="7" selection-end-column="16" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LSS_Reader/main.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="16" selection-start-line="6" selection-start-column="16" selection-end-line="6" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://F:/anaconda3/envs/py38/Lib/site-packages/scipy/optimize/minpack.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2664">
+          <caret line="474" selection-start-line="474" selection-end-line="474" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LSS_Reader/mainwindow.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="2609" column="125" selection-start-line="2609" selection-start-column="125" selection-end-line="2609" selection-end-column="125" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
           </folding>
         </state>
       </provider>
