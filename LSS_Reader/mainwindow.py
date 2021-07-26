@@ -120,7 +120,7 @@ class MainWindow (QMainWindow):
         self.ui.plotMoveDownPushButton.setIcon(QIcon('arrow_down.png'))
         self.init_signals()
         self.specFileName=None
-        self.openSpecFile(fname='C:/Users/bu/Desktop/sample_data/sample')
+        #self.openSpecFile(fname='C:/Users/bu/Desktop/sample_data/sample')
         self.initValidator()
 
 
@@ -494,7 +494,7 @@ class MainWindow (QMainWindow):
         
     def showAbout(self):
         cwd=os.getcwd()
-        files=['mainwindow.py','mainwindow.ui','main.py','mca_routines.py','mpl2dwidget.py','mplwidget.py','spec_routines.py','TwoDDetector.py','logo.png']
+        files=['mainwindow.py','mainwindow.ui','LSS_Reader.py','mca_routines.py','mpl2dwidget.py','mplwidget.py','spec_routines.py','TwoDDetector.py','logo.png']
         fname=[cwd+'/'+fname for fname in files]
         updateTime=max([os.path.getmtime(fn) for fn in fname])
         self.messageBox('LSS-Reader\n Version: 17.01\nLast Update: '+time.strftime("%m/%d/%Y %I:%M:%S %p",time.localtime(updateTime))+'\nCopyright belongs to:\n\tWei Bu <weibu1977@gmail.com>\n\tMrinal K Bera <nayanbera@gmail.com>',title='About')

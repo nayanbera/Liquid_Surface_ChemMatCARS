@@ -1,9 +1,354 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="312939c2-55a5-4314-acfc-cfae75a345d3" name="Default Changelist" comment="fix &quot;spec file update&quot; bug">
+    <list default="true" id="312939c2-55a5-4314-acfc-cfae75a345d3" name="Default Changelist" comment="fix misc bug for python3.8">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LSS_Reader/TwoDDetector.py" beforeDir="false" afterPath="$PROJECT_DIR$/LSS_Reader/TwoDDetector.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/arrow_up.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/build/main/Analysis-00.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/build/main/COLLECT-00.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/build/main/EXE-00.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/build/main/PKG-00.pkg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/build/main/PKG-00.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/build/main/PYZ-00.pyz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/build/main/PYZ-00.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/build/main/Tree-00.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/build/main/Tree-01.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/build/main/main.exe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/build/main/main.exe.manifest" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/build/main/warn-main.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/build/main/xref-main.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/_asyncio.cpython-38-darwin.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/_bisect.cpython-38-darwin.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/_blake2.cpython-38-darwin.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/_bz2.cpython-38-darwin.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/_codecs_cn.cpython-38-darwin.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/_codecs_hk.cpython-38-darwin.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/_codecs_iso2022.cpython-38-darwin.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/_codecs_jp.cpython-38-darwin.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/_codecs_kr.cpython-38-darwin.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/_codecs_tw.cpython-38-darwin.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/_contextvars.cpython-38-darwin.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/_csv.cpython-38-darwin.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/_ctypes.cpython-38-darwin.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/_datetime.cpython-38-darwin.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/_decimal.cpython-38-darwin.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/_hashlib.cpython-38-darwin.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/_heapq.cpython-38-darwin.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/_lzma.cpython-38-darwin.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/_md5.cpython-38-darwin.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/_multibytecodec.cpython-38-darwin.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/_multiprocessing.cpython-38-darwin.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/_opcode.cpython-38-darwin.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/_pickle.cpython-38-darwin.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/_posixshmem.cpython-38-darwin.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/_posixsubprocess.cpython-38-darwin.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/_queue.cpython-38-darwin.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/_random.cpython-38-darwin.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/_scproxy.cpython-38-darwin.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/_sha1.cpython-38-darwin.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/_sha256.cpython-38-darwin.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/_sha3.cpython-38-darwin.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/_sha512.cpython-38-darwin.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/_socket.cpython-38-darwin.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/_ssl.cpython-38-darwin.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/_struct.cpython-38-darwin.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/_struct/cpython-38-darwin/sotruct.cpython-38-darwin.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/array.cpython-38-darwin.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/base_library.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/binascii.cpython-38-darwin.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/flupara.ui" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/formfactorDialog.ui" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/gixsyspara.ui" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/grp.cpython-38-darwin.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/include/python3.8/pyconfig.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/lib/python3.8/config-3.8-darwin/Makefile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/libcrypto.1.1.dylib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/libffi.7.dylib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/liblzma.5.dylib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/libpython3.8.dylib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/libreadline.8.dylib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/libssl.1.1.dylib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/libtinfow.6.dylib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/libz.1.dylib" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/main" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/mainwindow.ui" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/math.cpython-38-darwin.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/mmap.cpython-38-darwin.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/mplwidget.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/activation.dat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/ac.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/ag.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/al.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/ar.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/as.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/at.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/au.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/b.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/ba.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/be.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/bi.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/br.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/c.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/ca.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/cd.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/ce.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/cl.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/co.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/cr.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/cs.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/cu.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/dy.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/er.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/eu.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/f.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/f0_WaasKirf.dat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/fe.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/fr.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/ga.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/gd.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/ge.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/h.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/he.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/hf.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/hg.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/ho.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/i.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/in.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/ir.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/k.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/kr.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/la.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/li.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/lu.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/mg.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/mn.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/mo.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/n.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/na.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/nb.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/nd.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/ne.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/ni.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/o.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/os.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/p.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/pa.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/pb.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/pd.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/pm.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/po.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/pr.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/pt.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/ra.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/rb.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/re.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/read.me" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/rh.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/rn.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/ru.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/s.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/sb.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/sc.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/se.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/si.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/sm.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/sn.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/sr.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/ta.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/tb.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/tc.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/te.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/th.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/ti.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/tl.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/tm.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/u.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/v.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/w.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/xe.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/y.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/yb.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/zn.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/periodictable/xsf/zr.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/plotscale.ui" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/pyexpat.cpython-38-darwin.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/readline.cpython-38-darwin.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/referr1.ui" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/referr2.ui" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/referr3.ui" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/refpara.ui" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/refsave.ui" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/refsyspara.ui" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/resource.cpython-38-darwin.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/rodpara.ui" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/select.cpython-38-darwin.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/termios.cpython-38-darwin.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/unicodedata.cpython-38-darwin.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/xr_ref.f90" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/xr_ref.pyd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/xr_ref.pyf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/xr_ref.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/zlib.cpython-38-darwin.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/compiled/main/zlib/cpython-38-darwin/soib.cpython-38-darwin.so" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/cylff.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/flupara.ui" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/formfactor.pdf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/formfactorDialog.ui" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/gixsyspara.ui" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/instru_compiler_fortran" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/main.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/main.spec" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/main/Analysis-00.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/main/COLLECT-00.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/main/EXE-00.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/main/PKG-00.pkg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/main/PKG-00.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/main/PYZ-00.pyz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/main/PYZ-00.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/main/Tree-00.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/main/Tree-01.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/main/Tree-02.toc" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/main/base_library.zip" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/main/main" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/main/warn-main.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/main/xref-main.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/mainwindow.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/mainwindow.ui" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/mplwidget.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/__init__.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/activation.dat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/activation.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/chemicals.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/constants.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/core.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/covalent_radius.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/cromermann.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/crystal_structure.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/density.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/fasta.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/formulas.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/lynn1990.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/magnetic_ff.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/mass.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/nsf.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/plot.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/util.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/ac.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/ag.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/al.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/ar.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/as.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/at.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/au.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/b.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/ba.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/be.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/bi.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/br.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/c.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/ca.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/cd.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/ce.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/cl.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/co.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/cr.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/cs.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/cu.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/dy.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/er.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/eu.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/f.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/f0_WaasKirf.dat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/fe.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/fr.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/ga.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/gd.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/ge.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/h.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/he.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/hf.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/hg.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/ho.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/i.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/in.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/ir.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/k.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/kr.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/la.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/li.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/lu.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/mg.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/mn.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/mo.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/n.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/na.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/nb.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/nd.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/ne.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/ni.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/o.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/os.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/p.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/pa.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/pb.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/pd.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/pm.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/po.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/pr.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/pt.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/ra.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/rb.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/re.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/read.me" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/rh.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/rn.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/ru.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/s.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/sb.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/sc.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/se.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/si.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/sm.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/sn.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/sr.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/ta.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/tb.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/tc.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/te.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/th.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/ti.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/tl.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/tm.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/u.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/v.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/w.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/xe.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/y.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/yb.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/zn.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/periodictable/xsf/zr.nff" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/plotscale.ui" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/referr1.ui" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/referr2.ui" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/referr3.ui" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/refpara.ui" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/refsave.ui" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/refsyspara.ui" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/rodpara.ui" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/speff.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/sphff.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/temp.fit" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/temp.rrf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/temp1.fit" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/temp2.fit" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/temp_for.fit.fit" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/temp_python.fit" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/twolayerzero_fit.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/xr_ref.f90" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/xr_ref.pyd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/xr_ref.pyf" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Analyzer/xr_ref.so" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/LSS_Reader/build/main/Analysis-00.toc" beforeDir="false" afterPath="$PROJECT_DIR$/LSS_Reader/build/main/Analysis-00.toc" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/LSS_Reader/build/main/COLLECT-00.toc" beforeDir="false" afterPath="$PROJECT_DIR$/LSS_Reader/build/main/COLLECT-00.toc" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/LSS_Reader/build/main/EXE-00.toc" beforeDir="false" afterPath="$PROJECT_DIR$/LSS_Reader/build/main/EXE-00.toc" afterDir="false" />
@@ -14,11 +359,10 @@
       <change beforePath="$PROJECT_DIR$/LSS_Reader/build/main/Tree-00.toc" beforeDir="false" afterPath="$PROJECT_DIR$/LSS_Reader/build/main/Tree-00.toc" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/LSS_Reader/build/main/Tree-01.toc" beforeDir="false" afterPath="$PROJECT_DIR$/LSS_Reader/build/main/Tree-01.toc" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/LSS_Reader/build/main/main.exe" beforeDir="false" afterPath="$PROJECT_DIR$/LSS_Reader/build/main/main.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LSS_Reader/build/main/main.exe.manifest" beforeDir="false" afterPath="$PROJECT_DIR$/LSS_Reader/build/main/main.exe.manifest" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/LSS_Reader/build/main/warn-main.txt" beforeDir="false" afterPath="$PROJECT_DIR$/LSS_Reader/build/main/warn-main.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/LSS_Reader/build/main/xref-main.html" beforeDir="false" afterPath="$PROJECT_DIR$/LSS_Reader/build/main/xref-main.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LSS_Reader/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/LSS_Reader/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LSS_Reader/main.spec" beforeDir="false" afterPath="$PROJECT_DIR$/LSS_Reader/main.spec" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Reader/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/LSS_Reader/LSS_Reader.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LSS_Reader/main.spec" beforeDir="false" afterPath="$PROJECT_DIR$/LSS_Reader/LSS_Reader.spec" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/LSS_Reader/mainwindow.py" beforeDir="false" afterPath="$PROJECT_DIR$/LSS_Reader/mainwindow.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -33,8 +377,8 @@
       <file leaf-file-name="mainwindow.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/LSS_Reader/mainwindow.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
-              <caret line="2609" column="125" selection-start-line="2609" selection-start-column="125" selection-end-line="2609" selection-end-column="125" />
+            <state relative-caret-position="442">
+              <caret line="122" column="74" selection-start-line="122" selection-start-column="74" selection-end-line="122" selection-end-column="74" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
@@ -42,20 +386,17 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="mainwindow.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/LSS_Analyzer/mainwindow.py">
+      <file leaf-file-name="LSS_Reader.spec" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/LSS_Reader/LSS_Reader.spec">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="22117">
-              <caret line="1325" column="32" selection-start-line="1325" selection-start-column="32" selection-end-line="1325" selection-end-column="32" />
-              <folding>
-                <element signature="e#0#21#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="425">
+              <caret line="28" column="22" selection-start-line="28" selection-start-column="22" selection-end-line="28" selection-end-column="22" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/LSS_Reader/main.py">
+      <file leaf-file-name="LSS_Reader.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/LSS_Reader/LSS_Reader.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="102">
               <caret line="6" column="16" selection-start-line="6" selection-start-column="16" selection-end-line="6" selection-end-column="16" />
@@ -127,9 +468,10 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/LSS_Reader/spec_routines.py" />
-        <option value="$PROJECT_DIR$/LSS_Reader/main.spec" />
         <option value="$PROJECT_DIR$/LSS_Reader/main.py" />
         <option value="$PROJECT_DIR$/LSS_Reader/TwoDDetector.py" />
+        <option value="$PROJECT_DIR$/LSS_Reader/main.spec" />
+        <option value="$PROJECT_DIR$/LSS_Reader/LSS_Reader.spec" />
         <option value="$PROJECT_DIR$/LSS_Reader/mainwindow.py" />
       </list>
     </option>
@@ -152,11 +494,6 @@
             <path>
               <item name="Liquid_Surface_ChemMatCARS" type="b2602c69:ProjectViewProjectNode" />
               <item name="Liquid_Surface_ChemMatCARS" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Liquid_Surface_ChemMatCARS" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Liquid_Surface_ChemMatCARS" type="462c0819:PsiDirectoryNode" />
-              <item name="LSS_Analyzer" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Liquid_Surface_ChemMatCARS" type="b2602c69:ProjectViewProjectNode" />
@@ -218,20 +555,29 @@
       <option name="project" value="LOCAL" />
       <updated>1623362161935</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="fix misc bug for python3.8">
+      <created>1626454043182</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1626454043182</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1912" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="1912" y="-8" width="1936" height="1056" extended-state="7" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18967333" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32900432" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.32900432" />
       <window_info anchor="bottom" id="Python Console" order="10" weight="0.32900432" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.3430736" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.27272728" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -240,7 +586,6 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="1" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -249,7 +594,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Updated all the modules for Python 3.8" />
     <MESSAGE value="fix &quot;spec file update&quot; bug" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix &quot;spec file update&quot; bug" />
+    <MESSAGE value="fix misc bug for python3.8" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix misc bug for python3.8" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/LSS_Reader/mainwindow.py">
@@ -272,7 +618,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/LSS_Reader/main.py">
+    <entry file="file://$PROJECT_DIR$/LSS_Reader/LSS_Reader.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
           <caret line="6" column="16" selection-start-line="6" selection-start-column="16" selection-end-line="6" selection-end-column="16" />
@@ -306,7 +652,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/LSS_Reader/main.py">
+    <entry file="file://$PROJECT_DIR$/LSS_Reader/LSS_Reader.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="221">
           <caret line="20" column="21" selection-start-line="20" selection-start-column="21" selection-end-line="20" selection-end-column="21" />
@@ -354,13 +700,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/LSS_Reader/main.spec">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="111">
-          <caret line="11" column="42" selection-start-line="11" selection-start-column="42" selection-end-line="11" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/LSS_Analyzer/mainwindow.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="22117">
@@ -381,7 +720,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/LSS_Reader/main.py">
+    <entry file="file://$PROJECT_DIR$/LSS_Reader/LSS_Reader.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
           <caret line="6" column="16" selection-start-line="6" selection-start-column="16" selection-end-line="6" selection-end-column="16" />
@@ -395,10 +734,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/LSS_Reader/LSS_Reader.spec">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="28" column="22" selection-start-line="28" selection-start-column="22" selection-end-line="28" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/LSS_Reader/mainwindow.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="2609" column="125" selection-start-line="2609" selection-start-column="125" selection-end-line="2609" selection-end-column="125" />
+        <state relative-caret-position="442">
+          <caret line="122" column="74" selection-start-line="122" selection-start-column="74" selection-end-line="122" selection-end-column="74" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
           </folding>

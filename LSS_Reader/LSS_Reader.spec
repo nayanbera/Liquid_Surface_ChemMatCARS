@@ -1,16 +1,16 @@
 # -*- mode: python ; coding: utf-8 -*-
 
+
 block_cipher = None
 
 
-a = Analysis(['main.py'],
-             pathex=['C:\\Users\\bu\\PycharmProjects\\Liquid_Surface_ChemMatCARS\\LSS_Analyzer'],
+a = Analysis(['LSS_Reader.py'],
+             pathex=['C:\\Users\\bu\\PY38\\Liquid_Surface_ChemMatCARS\\LSS_Reader'],
              binaries=[],
              datas=[('*.ui','.'),
+                    ('mpl2dwidget.py','.'),
                     ('mplwidget.py','.'),
-                    ('xr_ref.*','.'),
-                    ('periodictable/xsf','periodictable/xsf'),
-                    ('periodictable/activation.dat','periodictable')],
+                    ('*.png','.')],
              hiddenimports=[],
              hookspath=[],
              runtime_hooks=[],
@@ -25,7 +25,7 @@ exe = EXE(pyz,
           a.scripts,
           [],
           exclude_binaries=True,
-          name='main',
+          name='LSS_Reader',
           debug=False,
           bootloader_ignore_signals=False,
           strip=False,
@@ -38,4 +38,4 @@ coll = COLLECT(exe,
                strip=False,
                upx=True,
                upx_exclude=[],
-               name='main')
+               name='LSS_Reader')
