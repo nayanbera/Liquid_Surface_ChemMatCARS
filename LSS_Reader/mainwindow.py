@@ -4943,11 +4943,20 @@ class MainWindow (QMainWindow):
     
     def fitPeak(self,data): #fit the peak 
         data=data[np.argsort(data[:,0])]
-        ini=max(float(str(self.uipeakfit.rangeLineEdit.text()).split(':')[0]),data[0][0])
-        fin=min(float(str(self.uipeakfit.rangeLineEdit.text()).split(':')[1]),data[-1][0])
+        try:
+            ini=max(float(str(self.uipeakfit.rangeLineEdit.text()).split(':')[0]),data[0][0])
+            fin=min(float(str(self.uipeakfit.rangeLineEdit.text()).split(':')[1]),data[-1][0])
+        except:
+            self.messageBox('Warning: Please input the fit range with the format "0:1"!')
+            self.uipeakfit.rangeLineEdit.setText('0:1')
+            return
+
         self.peakfitranini=float(str(self.uipeakfit.rangeLineEdit.text()).split(':')[0])
         self.peakfitranfin=float(str(self.uipeakfit.rangeLineEdit.text()).split(':')[1])
         data1=data[np.where(np.logical_and(data[:,0]>=ini,data[:,0]<=fin))]
+        if len(data1)==0:
+            self.messageBox('Warning: There is no data within the fit range!')
+            return
         peaknumber=self.uipeakfit.numberOfPeakSpinBox.value()
         peaktype=str(self.uipeakfit.peakTypeComboBox.currentText())
         bgorder=self.uipeakfit.bgSpinBox.value()
